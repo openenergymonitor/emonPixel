@@ -1,9 +1,9 @@
 /*
  * -------------------------------------------------------------------
- * EmonPixel Emon WiFi Display gateway
+ * EmonESP Serial to Emoncms gateway
  * -------------------------------------------------------------------
  * Adaptation of Chris Howells OpenEVSE ESP Wifi
- * by Trystan Lea, Glyn Hudson, David Hunnisett, OpenEnergyMonitor
+ * by Trystan Lea, Glyn Hudson, OpenEnergyMonitor
  * All adaptation GNU General Public License as below.
  *
  * -------------------------------------------------------------------
@@ -31,6 +31,7 @@
 #include "input.h"
 #include "emoncms.h"
 #include "mqtt.h"
+#include "pixel.h"
 
 // -------------------------------------------------------------------
 // SETUP
@@ -61,6 +62,16 @@ void setup() {
   ota_setup();
 
   DEBUG.println("Server started");
+  
+  // Start Pixel
+#ifdef PIXEL
+  pixel_begin();
+  DEBUG.println("Pixel started..RGB demo");
+  pixel_rgb_demo();
+  delay(5000);
+  DEBUG.println("Pixel off");
+  pixel_off();
+#endif
 
   delay(100);
 } // end setup
