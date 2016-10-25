@@ -1,7 +1,7 @@
 
 # EmonESP
 
-[![Build Status](https://travis-ci.org/openenergymonitor/EmonESP.svg?branch=master)](https://travis-ci.org/openenergymonitor/EmonESP)
+[![Build Status](https://travis-ci.org/openenergymonitor/emonPixel.svg?branch=master)](https://travis-ci.org/openenergymonitor/emonPixel)
 
 ESP8266 WIFI Pixel display
 
@@ -10,6 +10,7 @@ ESP8266 WIFI Pixel display
 ## Requirements
 
 - ESP-12E module with 4M Flash
+- EmonPixel
 
 ***
 
@@ -47,7 +48,7 @@ E.g Connected to WiFi network with SSID `OpenEnergyMonitor` with local IP `10.0.
 
 ![mqtt setup](docs/mqtt.png)
 
-EmonESP can post data to an MQTT server. Each data key:pair value will be published to a sub-topic of base topic.E.g data `CT1:346` will results in `346` being published to `<base-topic>/CT1`
+emonPixel can be sent stuff over MQTT commands to come
 
 - Enter MQTT server host and base-topic
 - (Optional) Enter server authentication details if required
@@ -73,33 +74,7 @@ Displays free system memory and firmware version
 
 TBC
 
-## HTTP API Examples
 
-### View units status:
-
-`http://<IP-ADDRESS>/status`
-
-Example return in JSON:
-
-```
-{"mode":"STA","networks":[],"rssi":[],"ssid":"OpenEnergyMonitor","srssi":"-58","ipaddress":"10.0.1.93","emoncms_server":"emoncms.org","emoncms_node":"emonesp","emoncms_apikey":"xxxxxxxx","emoncms_connected":"0","packets_sent":"0","packets_success":"0","mqtt_server":"emonpi","mqtt_topic":"emonesp","mqtt_user":"emonpi","mqtt_pass":"xxxxxx","mqtt_connected":"0","free_heap":"25040"}
-```
-
-### 4. Data Input
-
-Data can be inputed to EmonESP via serial UART (9600 baud) or HTTP API:
-
-![input setup](docs/input.png)
-
-*Previously called `test`, renamed to `input` since this is a useful method to input a data string to be posted to Emoncms & MQTT*
-
-`http://<IP-ADDRESS>/input?string=CT1:3935,CT2:325,T1:12.5,T2:16.9,T3:11.2,T4:34.7`
-
-### Save Emoncms server details
-
-`http://<IP-ADDRESS>/saveemoncms?&server=emoncms.org&apikey=xxxxxxxxxxxxxxxxxx&node=emonesp&fingerprint=7D:82:15:BE:D7:BC:72:58:87:7D:8E:40:D4:80:BA:1A:9F:8B:8D:DA`
-
-*SSL SHA-1 fingerprint is optional, HTTPS connection will be enabled if present*
 
 ### Save Emoncms MQTT server details
 
@@ -111,7 +86,7 @@ Data can be inputed to EmonESP via serial UART (9600 baud) or HTTP API:
 
 ## Installation
 
-EmonESP uses [ESP8266 Arduino core](https://github.com/esp8266/Arduino)
+emonPixel uses [ESP8266 Arduino core](https://github.com/esp8266/Arduino)
 
 Firmware can be compiled and uploaded either using PlatfomIO ([see blog post](https://blog.openenergymonitor.org/2016/06/platformio/)) or Arduino IDE.
 
@@ -139,7 +114,7 @@ Standalone built on GitHub Atom IDE, or use PlatformIO Atom IDE plug-in if you a
 #### 3. Compile
 
 ```
-$ cd EmonESP
+$ cd emonPixel
 $ pio run
 ```
 
@@ -251,3 +226,23 @@ GNU V3 General Public License
 
 # MQTT
 only one subscription callback though can subscribe to multiple sub-topics
+# emonPixel
+WiFi LED Pixels
+
+#### Troubleshooting Upload
+
+If you are experiancing ESP hanging in a reboot loop after upload it may be that the ESP flash has remnants of previous code (which may have the used the ESP memory in a different way). The ESP flash can be fully erased using [esptool](https://github.com/themadinventor/esptool). With the unit in bootloder mode run:
+
+`$ esptool.py erase_flash`
+
+*`sudo` maybe required*
+
+Output:
+
+```
+esptool.py v1.2-dev
+Connecting...
+Running Cesanta flasher stub...
+Erasing flash (this may take a while)...
+Erase took 8.0 seconds
+```

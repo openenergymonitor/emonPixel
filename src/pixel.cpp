@@ -1,4 +1,4 @@
- /*
+/*
  * by Trystan Lea, Glyn Hudson, OpenEnergyMonitor
  * All adaptation GNU General Public License as below.
  *
@@ -26,7 +26,7 @@
 
 // void pixel_setup(uint16_t PixelCount, uint16_t PixelPin)
 // {
-  // NeoPixelBus<NeoGrbFeature, NeoEsp8266BitBang800KbpsMethod> strip(PixelCount, PixelPin);
+// NeoPixelBus<NeoGrbFeature, NeoEsp8266BitBang800KbpsMethod> strip(PixelCount, PixelPin);
 // }
 
 NeoPixelBus<NeoGrbFeature, NeoEsp8266BitBang800KbpsMethod> strip(PixelCount, PixelPin);
@@ -39,23 +39,35 @@ RgbColor black(0);
 
 void pixel_begin()
 {
-  // this resets all the neopixels to an off state
-  strip.Begin();
-  strip.Show();
+        // this resets all the neopixels to an off state
+        strip.Begin();
+        strip.Show();
+}
+
+void random_pixel_setup(){
+        for (uint16_t pixel = 0; pixel < PixelCount; pixel++)
+        {
+                RgbColor color = RgbColor(random(255), random(255), random(255));
+                strip.SetPixelColor(pixel, color);
+        }
+        strip.Show();
+
 }
 
 void pixel_rgb_demo(){
-  strip.SetPixelColor(0, red);
-  strip.SetPixelColor(1, green);
-  strip.SetPixelColor(2, blue);
-  strip.SetPixelColor(3, white);
-  strip.Show();
+        strip.SetPixelColor(0, red);
+        strip.SetPixelColor(1, green);
+        strip.SetPixelColor(2, blue);
+        strip.SetPixelColor(3, white);
+        strip.Show();
 }
 
 void pixel_off(){
-  strip.SetPixelColor(0, black);
-  strip.SetPixelColor(1, black);
-  strip.SetPixelColor(2, black);
-  strip.SetPixelColor(3, black);
-  strip.Show();
+        for (uint16_t pixel = 0; pixel < PixelCount; pixel++)
+        {
+                strip.SetPixelColor(pixel, black);
+
+        }
+        strip.Show();
+
 }

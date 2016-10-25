@@ -55,11 +55,15 @@ void callback(char* topic, byte* payload, unsigned int length) {
   // Switch on the LED if an 1 was received as first character
   if ((char)payload[0] == '1') {
     pixel_rgb_demo();
-  } else {
+  } else if ((char)payload[0] == '2') {
+    random_pixel_setup();
+  }
+    else {
     pixel_off();
   }
 
 }
+
 
 // -------------------------------------------------------------------
 // MQTT Connect
@@ -74,7 +78,6 @@ boolean mqtt_connect()
     mqttclient.publish(mqtt_topic.c_str(), "connected"); // Once connected, publish an announcement..
     mqttclient.subscribe(mqtt_topic.c_str());
     mqttclient.setCallback(callback);
-    DEBUG.println("MQTT callback installed");
   } else {
     DEBUG.print("MQTT failed: ");
     DEBUG.println(mqttclient.state());

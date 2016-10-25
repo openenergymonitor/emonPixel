@@ -38,6 +38,8 @@
 
 extern void pixel_begin();
 extern void pixel_rgb_demo();
+extern void random_pixel_setup();
+
 extern void pixel_off();
 
 
