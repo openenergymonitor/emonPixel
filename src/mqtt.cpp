@@ -26,10 +26,13 @@
 #include "emonesp.h"
 #include "mqtt.h"
 #include "config.h"
+#include "pixel.h"
+
 
 #include <Arduino.h>
 #include <PubSubClient.h>             // MQTT https://github.com/knolleary/pubsubclient PlatformIO lib: 89
 #include <WiFiClient.h>
+
 
 WiFiClient espClient;                 // Create client for MQTT
 PubSubClient mqttclient(espClient);   // Create client for MQTT
@@ -38,6 +41,25 @@ long lastMqttReconnectAttempt = 0;
 int clientTimeout = 0;
 int i = 0;
 
+
+
+// -------------------------------------------------------------------
+// MQTT callback
+// -------------------------------------------------------------------
+void callback(char* topic, byte* payload, unsigned int length) {
+  DEBUG.println("Message arrived [");
+  DEBUG.println(topic);
+  DEBUG.println("] ");
+
+
+  // Switch on the LED if an 1 was received as first character
+  if ((char)payload[0] == '1') {
+    pixel_rgb_demo();
+  } else {
+    pixel_off();
+  }
+
+}
 
 // -------------------------------------------------------------------
 // MQTT Connect
@@ -50,6 +72,9 @@ boolean mqtt_connect()
   if (mqttclient.connect(strID.c_str(), mqtt_user.c_str(), mqtt_pass.c_str())) {  // Attempt to connect
     DEBUG.println("MQTT connected");
     mqttclient.publish(mqtt_topic.c_str(), "connected"); // Once connected, publish an announcement..
+    mqttclient.subscribe(mqtt_topic.c_str());
+    mqttclient.setCallback(callback);
+    DEBUG.println("MQTT callback installed");
   } else {
     DEBUG.print("MQTT failed: ");
     DEBUG.println(mqttclient.state());

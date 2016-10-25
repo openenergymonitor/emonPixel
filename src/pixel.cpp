@@ -20,7 +20,7 @@
  */
 
 #include <pixel.h>
-#include <Adafruit_NeoPixel.h>
+#include <NeoPixelBus.h>
 
 // ESP Bitbang method using GPIO4
 

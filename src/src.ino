@@ -39,9 +39,9 @@
 void setup() {
   delay(2000);
 
-  Serial.begin(115200);
+  Serial.begin(9600);
 #ifdef DEBUG_SERIAL1
-  Serial1.begin(115200);
+  Serial1.begin(9600);
 #endif
 
   DEBUG.println();
@@ -62,7 +62,7 @@ void setup() {
   ota_setup();
 
   DEBUG.println("Server started");
-  
+
   // Start Pixel
 #ifdef PIXEL
   pixel_begin();
@@ -85,19 +85,11 @@ void loop()
   web_server_loop();
   wifi_loop();
 
-  String input = "";
-  boolean gotInput = input_get(input);
   if (wifi_mode==WIFI_MODE_STA || wifi_mode==WIFI_MODE_AP_AND_STA)
   {
-    if(emoncms_apikey != 0 && gotInput) {
-      emoncms_publish(input);
-    }
     if(mqtt_server != 0)
     {
       mqtt_loop();
-      if(gotInput) {
-        mqtt_publish(input);
-      }
     }
   }
 } // end loop
