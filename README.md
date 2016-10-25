@@ -7,7 +7,7 @@ If you are experiancing ESP hanging in a reboot loop after upload it may be that
 
 `$ esptool.py erase_flash` 
 
-*`sudo` mayb be required*
+*`sudo` maybe required*
 
 Output:
 
