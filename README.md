@@ -62,7 +62,7 @@ The commands are based around the following base commands
  - cdial Illuminate clockwise. The entire pixel is set to the current background colour then filled in a clockwise direction. If the number to be displayed is larger than can be displayed by the pixel then it will fill compleately, blank and then continue to fill
  - adial as pre cdial but the background is not reset.
 
-  `$basettopic/backround/$r/$g/$b`
+  `$basettopic/background/$r/$g/$b`
    
   `$basettopic/cdial/$r/$g/$b/$n`
   
