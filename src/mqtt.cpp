@@ -66,6 +66,10 @@ void callback(char* topic, byte* payload, unsigned int length) {
         case 3:
                 set_pixel(get_count(command), get_red(command), get_green(command), get_blue(command));
                 break;
+        case 1:
+                set_c_target(get_count(command), get_red(command), get_green(command), get_blue(command));
+                break;
+
         }
 
 

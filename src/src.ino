@@ -32,48 +32,56 @@
 #include "emoncms.h"
 #include "mqtt.h"
 #include "pixel.h"
-
+#include "parsertest.h"
+boolean blink = false;
 // -------------------------------------------------------------------
 // SETUP
 // -------------------------------------------------------------------
 void setup() {
-  delay(2000);
 
-  Serial.begin(9600);
+        delay(1000);
+
+        Serial.begin(9600);
 #ifdef DEBUG_SERIAL1
-  Serial1.begin(9600);
+        Serial1.begin(9600);
 #endif
 
-  DEBUG.println();
-  DEBUG.print("EmonESP ");
-  DEBUG.println(ESP.getChipId());
-  DEBUG.println("Firmware: "+ currentfirmware);
+        DEBUG.println();
+        DEBUG.print("EmonESP ");
+        DEBUG.println(ESP.getChipId());
+        DEBUG.println("Firmware: "+ currentfirmware);
+        pixel_begin();
+        pixel_rgb_demo();
+        delay(1000);
+        pixel_off();
 
-  // Read saved settings from the config
-  config_load_settings();
+        // Read saved settings from the config
+        config_load_settings();
+        //DEBUG.println("settings loaded:");
 
-  // Initialise the WiFi
-  wifi_setup();
+        // Initialise the WiFi
+        wifi_setup();
+        //DEBUG.println("Wifi loaded:");
 
-  // Bring up the web server
-  web_server_setup();
+        // Bring up the web server
+        web_server_setup();
 
-  // Start the OTA update systems
-  ota_setup();
+        // Start the OTA update systems
+        ota_setup();
 
-  DEBUG.println("Server started");
+        DEBUG.println("Server started");
+        test();
+        // Start Pixel
 
-  // Start Pixel
-#ifdef PIXEL
-  pixel_begin();
-  DEBUG.println("Pixel started..RGB demo");
-  pixel_rgb_demo();
-  delay(5000);
-  DEBUG.println("Pixel off");
-  pixel_off();
-#endif
+        delay(100);
 
-  delay(100);
+        //This magic shoudl set up the button for us
+        pinMode(12, OUTPUT);
+        digitalWrite(12,LOW);
+        pinMode(12, INPUT);
+        digitalWrite(12,LOW);
+
+
 } // end setup
 
 // -------------------------------------------------------------------
@@ -81,15 +89,34 @@ void setup() {
 // -------------------------------------------------------------------
 void loop()
 {
-  ota_loop();
-  web_server_loop();
-  wifi_loop();
+        ota_loop();
+        web_server_loop();
+        wifi_loop();
 
-  if (wifi_mode==WIFI_MODE_STA || wifi_mode==WIFI_MODE_AP_AND_STA)
-  {
-    if(mqtt_server != 0)
-    {
-      mqtt_loop();
-    }
-  }
+
+        yield();
+
+
+        //DEBUG.println();
+
+        yield();
+        if (wifi_mode==WIFI_MODE_STA || wifi_mode==WIFI_MODE_AP_AND_STA)
+        {
+                if(mqtt_server != 0)
+                {
+                        mqtt_loop();
+                }
+                update_c_target();
+        }
+        else
+        {
+                delay(100);
+                if(blink) {
+                        set_pixel(10,60,0,0);
+                }
+                else{
+                        set_pixel(10,0,0,0);
+                }
+        }
+
 } // end loop

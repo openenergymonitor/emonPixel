@@ -38,11 +38,59 @@ RgbColor blue(0, 0, colorSaturation);
 RgbColor white(colorSaturation);
 RgbColor black(0);
 
+uint8_t c_count = 0;
+uint8_t a_count = 0;
+uint8_t c_target = 0;
+uint8_t a_target = 0;
+RgbColor c_colour= black;
+RgbColor bgColour = black;
+
+
 void pixel_begin()
 {
         // this resets all the neopixels to an off state
         strip.Begin();
         strip.Show();
+}
+
+void set_c_target(uint8_t target , uint8_t red, uint8_t green, uint8_t blue)
+{
+  c_colour = RgbColor(red,green,blue);
+  c_target = target;
+  c_count = 0;
+}
+
+void update_c_target()
+{
+  if (c_count == c_target){
+    return; //target reached do nothing
+  }
+  if (c_count == 0){
+    //start of a new sequence
+    refresh_background();
+  } else if (c_count % PixelCount == 0)
+  {
+    pixel_off();
+    delay(FLASH_LOOP_DELAY);
+    yield();
+    DEBUG.println( String(c_count) + " : "  + String((c_count / PixelCount)));
+    for(uint8_t loop_count = 0 ; loop_count < (int)(c_count / PixelCount); loop_count ++){
+      set_all_pixels(c_colour);
+      delay(FLASH_LOOP_DELAY);
+      yield();
+      pixel_off();
+      delay(FLASH_LOOP_DELAY);
+      yield();
+
+
+    }
+
+  }
+  strip.SetPixelColor(c_count % PixelCount,c_colour);
+  strip.Show();
+  c_count++;
+  delay(FLASH_LOOP_DELAY);
+
 }
 
 void random_pixel_setup(){
@@ -95,10 +143,22 @@ void set_pixel(uint8_t pixel, uint8_t red, uint8_t green, uint8_t blue)
 void set_background(uint8_t red, uint8_t green, uint8_t blue)
 {
   DEBUG.println("Set backgorund to red: " + String(red) + " Green: " + String(green) + " Blue: " + String(blue) );
-  RgbColor bgColour =  RgbColor(red,green,blue);
+  bgColour =  RgbColor(red,green,blue);
+  refresh_background();
+}
+
+void refresh_background(){
   for (uint16_t pixel = 0; pixel < PixelCount; pixel++)
   {
     strip.SetPixelColor(pixel, bgColour);
+  }
+  strip.Show();
+
+}
+void set_all_pixels(RgbColor theColour){
+  for (uint16_t pixel = 0; pixel < PixelCount; pixel++)
+  {
+    strip.SetPixelColor(pixel,theColour);
   }
   strip.Show();
 
