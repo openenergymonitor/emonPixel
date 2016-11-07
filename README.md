@@ -63,16 +63,16 @@ The commands are based around the following base commands
  - adial as pre cdial but the background is not reset.
 
   `$basettopic/background/$r/$g/$b`
-   
+
   `$basettopic/cdial/$r/$g/$b/$n`
-  
+
   `$basettopic/adial/$r/$g/$b/$n`
 
-  
+
   This will draw a clockwise dial starting from the 0th pixel (12 o'clock')
   Each pixel will be illuminated to the colour specified by $r $g $b the $n will dictate the number of pixels illuminated and the birghtness of the last pixel.
   e.g. `emonpixl/cdial/255/0/0/4` will turn the 1st pixel to 50% bightness red `emonpixl/cdial/255/0/0/24` will fill the first 2 pixels. The first pixel will be max brightness red and the second pixel will be at 50% brightness.
-  
+
 ## 5. Admin (Authentication)
 
 HTTP Authentication (highly recomended) can be enabled by saving admin config by default username and password
@@ -262,4 +262,12 @@ Connecting...
 Running Cesanta flasher stub...
 Erasing flash (this may take a while)...
 Erase took 8.0 seconds
+```
+
+
+#### Mega DUMP
+esptool can be used to program both the FS and the code in one hit from a functioning (tested) pixel
+```
+esptool.py read_flash  0x00000000  1400000 1,400,000 out
+esptool.py   write_flash 0x00000000 out
 ```
