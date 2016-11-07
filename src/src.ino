@@ -107,6 +107,7 @@ void loop()
                         mqtt_loop();
                 }
                 update_c_target();
+                update_a_target();
         }
         else
         {

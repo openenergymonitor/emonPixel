@@ -43,6 +43,8 @@ uint8_t a_count = 0;
 uint8_t c_target = 0;
 uint8_t a_target = 0;
 RgbColor c_colour= black;
+RgbColor a_colour= black;
+
 RgbColor bgColour = black;
 
 
@@ -59,7 +61,42 @@ void set_c_target(uint8_t target , uint8_t red, uint8_t green, uint8_t blue)
   c_target = target;
   c_count = 0;
 }
+void set_a_target(uint8_t target , uint8_t red, uint8_t green, uint8_t blue)
+{
+  a_colour = RgbColor(red,green,blue);
+  a_target = target;
+  a_count = 0;
+}
+void update_a_target()
+{
+  if (a_count == a_target || c_target != c_count){ // always go clockwise first
+    return; //target reached do nothing
+  }
+  if (a_count % PixelCount == 0)
+  {
+    pixel_off();
+    delay(FLASH_LOOP_DELAY);
+    yield();
+    for(uint8_t loop_count = 0 ; loop_count < (int)(a_count / PixelCount); loop_count ++){
+      set_all_pixels(a_colour);
+      delay(FLASH_LOOP_DELAY);
+      yield();
+      pixel_off();
+      delay(FLASH_LOOP_DELAY);
+      yield();
 
+
+    }
+    refresh_background();
+    set_c_target_state();
+  }
+  DEBUG.println(String(a_count) +  " : " + String(PixelCount - (a_count % PixelCount)));
+  strip.SetPixelColor(PixelCount - ((a_count % PixelCount) + 1) ,a_colour);
+  strip.Show();
+  a_count++;
+  delay(FLASH_LOOP_DELAY);
+
+}
 void update_c_target()
 {
   if (c_count == c_target){
@@ -73,7 +110,6 @@ void update_c_target()
     pixel_off();
     delay(FLASH_LOOP_DELAY);
     yield();
-    DEBUG.println( String(c_count) + " : "  + String((c_count / PixelCount)));
     for(uint8_t loop_count = 0 ; loop_count < (int)(c_count / PixelCount); loop_count ++){
       set_all_pixels(c_colour);
       delay(FLASH_LOOP_DELAY);
@@ -84,7 +120,7 @@ void update_c_target()
 
 
     }
-
+    refresh_background();
   }
   strip.SetPixelColor(c_count % PixelCount,c_colour);
   strip.Show();
@@ -92,7 +128,13 @@ void update_c_target()
   delay(FLASH_LOOP_DELAY);
 
 }
-
+void set_c_target_state(){
+  for (uint16_t pixel = 0; pixel < PixelCount && pixel < (c_count % PixelCount); pixel++)
+  {
+    strip.SetPixelColor(pixel % PixelCount,c_colour);
+  }
+  strip.Show();
+}
 void random_pixel_setup(){
         for (uint16_t pixel = 0; pixel < PixelCount; pixel++)
         {

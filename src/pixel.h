@@ -43,8 +43,12 @@ extern void set_pixel(uint8_t pixel, uint8_t red, uint8_t green, uint8_t blue);
 extern void set_background(uint8_t red, uint8_t green, uint8_t blue);
 extern void pixel_off();
 extern void set_c_target(uint8_t target , uint8_t red, uint8_t green, uint8_t blue);
-void update_c_target();
+extern void set_a_target(uint8_t target , uint8_t red, uint8_t green, uint8_t blue);
 
+void update_c_target();
+void update_a_target();
+
+void set_c_target_state();
 
 
 

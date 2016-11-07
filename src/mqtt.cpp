@@ -54,7 +54,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
         String command = "";
         for (int i= 0; i < length; i++)
         {
-          command.concat((char)payload[i]);
+                command.concat((char)payload[i]);
         }
         //String command =  String((char *)payload); // DO NOT LIKE THIS
         DEBUG.println(command);
@@ -69,6 +69,10 @@ void callback(char* topic, byte* payload, unsigned int length) {
         case 1:
                 set_c_target(get_count(command), get_red(command), get_green(command), get_blue(command));
                 break;
+        case 2:
+                set_a_target(get_count(command), get_red(command), get_green(command), get_blue(command));
+                break;
+
 
         }
 
