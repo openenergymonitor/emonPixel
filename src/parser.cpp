@@ -31,10 +31,10 @@
 #define NUMBER_INDEX = 6;
 
 
-String get_string_between_nth_slash(int slash_start, String to_parse)
+String get_string_between_nth_slash(uint8_t slash_start, String to_parse)
 {
-        int start=to_parse.indexOf("/");
-        int i=1;
+        uint8_t start=to_parse.indexOf("/");
+        uint8_t i=1;
         while( i < slash_start && start != -1)
         {
                 //not found the start yet so look at the next /
@@ -46,7 +46,7 @@ String get_string_between_nth_slash(int slash_start, String to_parse)
                 return "";
         }
         //find the last / if this is -1 then look use to the end of the string
-        int end_slash_index = to_parse.indexOf("/", start + 1);
+        uint8_t end_slash_index = to_parse.indexOf("/", start + 1);
 
         String possible_number = "";
         if(end_slash_index == -1) {
@@ -58,7 +58,7 @@ String get_string_between_nth_slash(int slash_start, String to_parse)
 
         return possible_number;
 }
-int get_number_between_nth_slash(int slash_start, String to_parse)
+uint8_t get_number_between_nth_slash(uint8_t slash_start, String to_parse)
 {
         //barf if there is nothing in the string it must have at least a / and something else
         if(to_parse.length() < 2) {
@@ -72,7 +72,7 @@ int get_number_between_nth_slash(int slash_start, String to_parse)
                 return constants::ERROR;
         }
         might_be_number.trim();
-        int result = might_be_number.toInt();
+        uint8_t result = (uint8_t)might_be_number.toInt();
         if(result > 0) {
                 return result;
         }
@@ -85,32 +85,32 @@ int get_number_between_nth_slash(int slash_start, String to_parse)
 
 
 }
-int get_red(String command)
+uint8_t get_red(String command)
 {
         //first / will be end of command and start of red string
         return get_number_between_nth_slash(1,command);
 }
 
-int get_green(String command)
+uint8_t get_green(String command)
 {
 
         return get_number_between_nth_slash(2,command);
 
 }
 
-int get_blue(String command)
+uint8_t get_blue(String command)
 {
         return get_number_between_nth_slash(3,command);
 
 }
-int get_count(String command)
+uint8_t get_count(String command)
 {
         return get_number_between_nth_slash(4,command);
 
 }
-int get_command(String command)
+uint8_t get_command(String command)
 {
-        int start=command.indexOf("/");
+        uint8_t start=command.indexOf("/");
         if (start < 2) {
                 return constants::ERROR;
         }
@@ -124,6 +124,9 @@ int get_command(String command)
         }
         else if(parsed.equals("background")){
           return constants::BACKGROUND;
+        }
+        else if(parsed.equals("pixel")){
+          return constants::PIXEL;
         }
         else {
           return constants::ERROR;

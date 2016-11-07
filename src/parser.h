@@ -22,24 +22,26 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  */
-
+ #ifndef Included_Parser_H
+ #define Included_Parser_H
 
  #include <Arduino.h>
 
  namespace constants
- {
-     const int BACKGROUND = 0;
-     const int CLOCKWISE = 1;
-     const int ACLOCKWISE = 2;
-     const int ERROR = -1;
-     // ... other related constants
+{
+        const uint8_t BACKGROUND = 0;
+        const uint8_t CLOCKWISE = 1;
+        const uint8_t ACLOCKWISE = 2;
+        const uint8_t PIXEL = 3;
+        const uint8_t ERROR = 0;
 
- }
+}
 
 
 
-extern int get_red(String command);
-extern int get_green(String command);
-extern int get_blue(String command);
-extern int get_count(String command);
-extern int get_command(String command);
+extern uint8_t get_red(String command);
+extern uint8_t get_green(String command);
+extern uint8_t get_blue(String command);
+extern uint8_t get_count(String command);
+extern uint8_t get_command(String command);
+#endif
