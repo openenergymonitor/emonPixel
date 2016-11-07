@@ -21,6 +21,7 @@
 
 #include <pixel.h>
 #include <NeoPixelBus.h>
+#include <emonesp.h>
 
 // ESP Bitbang method using GPIO4
 
@@ -54,20 +55,51 @@ void random_pixel_setup(){
 
 }
 
-void pixel_rgb_demo(){
-        strip.SetPixelColor(0, red);
-        strip.SetPixelColor(1, green);
-        strip.SetPixelColor(2, blue);
-        strip.SetPixelColor(3, white);
-        strip.Show();
-}
+  void pixel_rgb_demo(){
+          for (uint16_t pixel = 0; pixel < PixelCount; pixel++)
+          {
+                  switch(pixel%4)
+                  {
+                  case 0:
+                          strip.SetPixelColor(pixel,red);
+                          break;
+                  case 1:
+                          strip.SetPixelColor(pixel,green);
+                          break;
+                  case 2:
+                          strip.SetPixelColor(pixel,blue);
+                          break;
+                  case 3:
+                          strip.SetPixelColor(pixel,white);
+                          break;
+                  }
+                  strip.Show();
+                  delay(50);
+          }
+
+  }
 
 void pixel_off(){
         for (uint16_t pixel = 0; pixel < PixelCount; pixel++)
         {
                 strip.SetPixelColor(pixel, black);
-
         }
         strip.Show();
+
+}
+void set_pixel(uint8_t pixel, uint8_t red, uint8_t green, uint8_t blue)
+{
+  strip.SetPixelColor(pixel, RgbColor(red,green,blue));
+  strip.Show();
+}
+void set_background(uint8_t red, uint8_t green, uint8_t blue)
+{
+  DEBUG.println("Set backgorund to red: " + String(red) + " Green: " + String(green) + " Blue: " + String(blue) );
+  RgbColor bgColour =  RgbColor(red,green,blue);
+  for (uint16_t pixel = 0; pixel < PixelCount; pixel++)
+  {
+    strip.SetPixelColor(pixel, bgColour);
+  }
+  strip.Show();
 
 }

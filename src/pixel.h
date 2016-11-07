@@ -39,6 +39,9 @@
 extern void pixel_begin();
 extern void pixel_rgb_demo();
 extern void random_pixel_setup();
+extern void set_pixel(uint8_t pixel, uint8_t red, uint8_t green, uint8_t blue);
+extern void set_background(uint8_t red, uint8_t green, uint8_t blue);
+
 
 extern void pixel_off();
 
