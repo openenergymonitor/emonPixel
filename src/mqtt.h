@@ -31,6 +31,8 @@
 // -------------------------------------------------------------------
 
 #include <Arduino.h>
+#include <parser.h>
+
 
 // -------------------------------------------------------------------
 // Perform the background MQTT operations. Must be called in the main

@@ -27,6 +27,7 @@
 #include "mqtt.h"
 #include "config.h"
 #include "pixel.h"
+#include "parser.h"
 
 
 #include <Arduino.h>
@@ -47,20 +48,26 @@ int i = 0;
 // MQTT callback
 // -------------------------------------------------------------------
 void callback(char* topic, byte* payload, unsigned int length) {
-  DEBUG.println("Message arrived [");
-  DEBUG.println(topic);
-  DEBUG.println("] ");
+        DEBUG.println("Message arrived [");
+        DEBUG.println(topic);
+        DEBUG.println("] ");
+        String command = "";
+        for (int i= 0; i < length; i++)
+        {
+          command.concat((char)payload[i]);
+        }
+        //String command =  String((char *)payload); // DO NOT LIKE THIS
+        DEBUG.println(command);
 
+        switch (get_command(command)) {
+        case constants::BACKGROUND:
+                set_background(get_red(command), get_green(command), get_blue(command));
+                break;
+        case 3:
+                set_pixel(get_count(command), get_red(command), get_green(command), get_blue(command));
+                break;
+        }
 
-  // Switch on the LED if an 1 was received as first character
-  if ((char)payload[0] == '1') {
-    pixel_rgb_demo();
-  } else if ((char)payload[0] == '2') {
-    random_pixel_setup();
-  }
-    else {
-    pixel_off();
-  }
 
 }
 
@@ -70,20 +77,20 @@ void callback(char* topic, byte* payload, unsigned int length) {
 // -------------------------------------------------------------------
 boolean mqtt_connect()
 {
-  mqttclient.setServer(mqtt_server.c_str(), 1883);
-  DEBUG.println("MQTT Connecting...");
-  String strID = String(ESP.getChipId());
-  if (mqttclient.connect(strID.c_str(), mqtt_user.c_str(), mqtt_pass.c_str())) {  // Attempt to connect
-    DEBUG.println("MQTT connected");
-    mqttclient.publish(mqtt_topic.c_str(), "connected"); // Once connected, publish an announcement..
-    mqttclient.subscribe(mqtt_topic.c_str());
-    mqttclient.setCallback(callback);
-  } else {
-    DEBUG.print("MQTT failed: ");
-    DEBUG.println(mqttclient.state());
-    return(0);
-  }
-  return (1);
+        mqttclient.setServer(mqtt_server.c_str(), 1883);
+        DEBUG.println("MQTT Connecting...");
+        String strID = String(ESP.getChipId());
+        if (mqttclient.connect(strID.c_str(), mqtt_user.c_str(), mqtt_pass.c_str())) { // Attempt to connect
+                DEBUG.println("MQTT connected");
+                mqttclient.publish(mqtt_topic.c_str(), "connected"); // Once connected, publish an announcement..
+                mqttclient.subscribe(mqtt_topic.c_str());
+                mqttclient.setCallback(callback);
+        } else {
+                DEBUG.print("MQTT failed: ");
+                DEBUG.println(mqttclient.state());
+                return(0);
+        }
+        return (1);
 }
 
 // -------------------------------------------------------------------
@@ -95,41 +102,41 @@ boolean mqtt_connect()
 // -------------------------------------------------------------------
 void mqtt_publish(String data)
 {
-  String mqtt_data = "";
-  String topic = mqtt_topic + "/" + mqtt_feed_prefix;
-  int i=0;
-  while (int(data[i])!=0)
-  {
-    // Construct MQTT topic e.g. <base_topic>/CT1 e.g. emonesp/CT1
-    while (data[i]!=':'){
-      topic+= data[i];
-      i++;
-      if (int(data[i])==0){
-        break;
-      }
-    }
-    i++;
-    // Construct data string to publish to above topic
-    while (data[i]!=','){
-      mqtt_data+= data[i];
-      i++;
-      if (int(data[i])==0){
-        break;
-      }
-    }
-    // send data via mqtt
-    //delay(100);
-    DEBUG.printf("%s = %s\r\n", topic.c_str(), mqtt_data.c_str());
-    mqttclient.publish(topic.c_str(), mqtt_data.c_str());
-    topic = mqtt_topic + "/" + mqtt_feed_prefix;
-    mqtt_data="";
-    i++;
-    if (int(data[i])==0) break;
-  }
+        String mqtt_data = "";
+        String topic = mqtt_topic + "/" + mqtt_feed_prefix;
+        int i=0;
+        while (int(data[i])!=0)
+        {
+                // Construct MQTT topic e.g. <base_topic>/CT1 e.g. emonesp/CT1
+                while (data[i]!=':') {
+                        topic+= data[i];
+                        i++;
+                        if (int(data[i])==0) {
+                                break;
+                        }
+                }
+                i++;
+                // Construct data string to publish to above topic
+                while (data[i]!=',') {
+                        mqtt_data+= data[i];
+                        i++;
+                        if (int(data[i])==0) {
+                                break;
+                        }
+                }
+                // send data via mqtt
+                //delay(100);
+                DEBUG.printf("%s = %s\r\n", topic.c_str(), mqtt_data.c_str());
+                mqttclient.publish(topic.c_str(), mqtt_data.c_str());
+                topic = mqtt_topic + "/" + mqtt_feed_prefix;
+                mqtt_data="";
+                i++;
+                if (int(data[i])==0) break;
+        }
 
-  String ram_topic = mqtt_topic + "/" + mqtt_feed_prefix + "freeram";
-  String free_ram = String(ESP.getFreeHeap());
-  mqttclient.publish(ram_topic.c_str(), free_ram.c_str());
+        String ram_topic = mqtt_topic + "/" + mqtt_feed_prefix + "freeram";
+        String free_ram = String(ESP.getFreeHeap());
+        mqttclient.publish(ram_topic.c_str(), free_ram.c_str());
 }
 
 // -------------------------------------------------------------------
@@ -139,29 +146,29 @@ void mqtt_publish(String data)
 // -------------------------------------------------------------------
 void mqtt_loop()
 {
-  if (!mqttclient.connected()) {
-    long now = millis();
-    // try and reconnect continuously for first 5s then try again once every 10s
-    if ( (now < 50000) || ((now - lastMqttReconnectAttempt)  > 100000) ) {
-      lastMqttReconnectAttempt = now;
-      if (mqtt_connect()) { // Attempt to reconnect
-        lastMqttReconnectAttempt = 0;
-      }
-    }
-  } else {
-    // if MQTT connected
-    mqttclient.loop();
-  }
+        if (!mqttclient.connected()) {
+                long now = millis();
+                // try and reconnect continuously for first 5s then try again once every 10s
+                if ( (now < 50000) || ((now - lastMqttReconnectAttempt)  > 100000) ) {
+                        lastMqttReconnectAttempt = now;
+                        if (mqtt_connect()) { // Attempt to reconnect
+                                lastMqttReconnectAttempt = 0;
+                        }
+                }
+        } else {
+                // if MQTT connected
+                mqttclient.loop();
+        }
 }
 
 void mqtt_restart()
 {
-  if (mqttclient.connected()) {
-    mqttclient.disconnect();
-  }
+        if (mqttclient.connected()) {
+                mqttclient.disconnect();
+        }
 }
 
 boolean mqtt_connected()
 {
-  return mqttclient.connected();
+        return mqttclient.connected();
 }
