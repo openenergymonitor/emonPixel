@@ -58,24 +58,30 @@ emonPixel can be sent stuff over MQTT commands to come
 ### 3.1 MQTT commands
 The commands are based around the following base commands
 
- - background specifies the backround colour. Any pixels not filled by a dial in the last fill will remain this colour.
- - cdial Illuminate clockwise. The entire pixel is set to the current background colour then filled in a clockwise direction. If the number to be displayed is larger than can be displayed by the pixel then it will fill compleately, blank and then continue to fill
- - adial as pre cdial but the background is not reset.
+ - background specifies the background colour. Any pixels not filled by a dial in the last fill will remain this colour.
 
-  `$basettopic/background/$r/$g/$b`
+ `$basettopic/background/$r/$g/$b`
 
-  `$basettopic/cdial/$r/$g/$b/$n`
+ - cdial Illuminate clockwise. The entire pixel is set to the current background colour then filled in a clockwise direction. If the number to be displayed is larger than can be displayed by the pixel then it will fill completely, blank and then continue to fill
+
+ `$basettopic/cdial/$r/$g/$b/$n`
+
+ - adial as pre cdial but the background is not reset and the fill will start from pixel 16 in an anti clockwise direction.
+
 
   `$basettopic/adial/$r/$g/$b/$n`
 
+  - pixel does not reset the background and will set an individual pixel to be the specified colour
+
+  `$basettopic/pixel/$r/$g/$b`
 
   This will draw a clockwise dial starting from the 0th pixel (12 o'clock')
-  Each pixel will be illuminated to the colour specified by $r $g $b the $n will dictate the number of pixels illuminated and the birghtness of the last pixel.
-  e.g. `emonpixl/cdial/255/0/0/4` will turn the 1st pixel to 50% bightness red `emonpixl/cdial/255/0/0/24` will fill the first 2 pixels. The first pixel will be max brightness red and the second pixel will be at 50% brightness.
+  Each pixel will be illuminated to the colour specified by $r $g $b the $n will dictate the number of pixels illuminated and the brightness of the last pixel.
+  e.g. `emonpixel/cdial/255/0/0/4` will turn the 1st pixel to 50% brightness red `emonpixl/cdial/255/0/0/24` will fill the first 2 pixels. The first pixel will be max brightness red and the second pixel will be at 50% brightness.
 
 ## 5. Admin (Authentication)
 
-HTTP Authentication (highly recomended) can be enabled by saving admin config by default username and password
+HTTP Authentication (highly recommended) can be enabled by saving admin config by default username and password
 
 **HTTP authentication is required for all HTTP requests including input API**
 
@@ -270,4 +276,6 @@ esptool can be used to program both the FS and the code in one hit from a functi
 ```
 esptool.py read_flash  0x00000000  1400000 1,400,000 out
 esptool.py   write_flash 0x00000000 out
+
+
 ```
