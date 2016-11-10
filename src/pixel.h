@@ -34,7 +34,7 @@
 #define PixelCount      16
 #define PixelPin        4
 #define colorSaturation 128
-#define FLASH_LOOP_DELAY 200
+#define FLASH_LOOP_DELAY 100
 
 extern void pixel_begin();
 extern void pixel_rgb_demo();

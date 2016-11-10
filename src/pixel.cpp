@@ -75,15 +75,18 @@ void update_a_target()
   if (a_count % PixelCount == 0)
   {
     pixel_off();
-    delay(FLASH_LOOP_DELAY);
+    delay(400);
     yield();
     for(uint8_t loop_count = 0 ; loop_count < (int)(a_count / PixelCount); loop_count ++){
       set_all_pixels(a_colour);
-      delay(FLASH_LOOP_DELAY);
+      delay(3*FLASH_LOOP_DELAY);
       yield();
       pixel_off();
-      delay(FLASH_LOOP_DELAY);
+      delay(2*FLASH_LOOP_DELAY);
       yield();
+
+
+
 
 
     }
@@ -108,14 +111,14 @@ void update_c_target()
   } else if (c_count % PixelCount == 0)
   {
     pixel_off();
-    delay(FLASH_LOOP_DELAY);
+    delay(2*FLASH_LOOP_DELAY);
     yield();
     for(uint8_t loop_count = 0 ; loop_count < (int)(c_count / PixelCount); loop_count ++){
       set_all_pixels(c_colour);
-      delay(FLASH_LOOP_DELAY);
+      delay(3*FLASH_LOOP_DELAY);
       yield();
       pixel_off();
-      delay(FLASH_LOOP_DELAY);
+      delay(2*FLASH_LOOP_DELAY);
       yield();
 
 
