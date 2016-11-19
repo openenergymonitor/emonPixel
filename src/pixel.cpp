@@ -189,7 +189,7 @@ void set_background(uint8_t red, uint8_t green, uint8_t blue)
 {
   DEBUG.println("Set backgorund to red: " + String(red) + " Green: " + String(green) + " Blue: " + String(blue) );
   bgColour =  RgbColor(red,green,blue);
-  refresh_background();
+  //refresh_background();
 }
 
 void refresh_background(){
