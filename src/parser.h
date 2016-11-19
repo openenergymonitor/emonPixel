@@ -43,5 +43,5 @@ extern uint8_t get_red(String command);
 extern uint8_t get_green(String command);
 extern uint8_t get_blue(String command);
 extern uint8_t get_count(String command);
-extern uint8_t get_command(String command);
+extern int get_command(String command);
 #endif

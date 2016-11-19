@@ -108,7 +108,7 @@ uint8_t get_count(String command)
         return get_number_between_nth_slash(4,command);
 
 }
-uint8_t get_command(String command)
+int get_command(String command)
 {
         uint8_t start=command.indexOf("/");
         if (start < 2) {
@@ -129,7 +129,7 @@ uint8_t get_command(String command)
           return constants::PIXEL;
         }
         else {
-          return constants::ERROR;
+          return -1;
         }
 
 }
