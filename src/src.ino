@@ -33,6 +33,8 @@
 #include "mqtt.h"
 #include "pixel.h"
 #include "parsertest.h"
+#include "button.h"
+
 boolean blink = false;
 // -------------------------------------------------------------------
 // SETUP
@@ -70,16 +72,13 @@ void setup() {
         ota_setup();
 
         DEBUG.println("Server started");
-        test();
+        //test();
         // Start Pixel
-
+        setup_button();
         delay(100);
 
         //This magic shoudl set up the button for us
-        pinMode(12, OUTPUT);
-        digitalWrite(12,LOW);
-        pinMode(12, INPUT);
-        digitalWrite(12,LOW);
+
 
 
 } // end setup

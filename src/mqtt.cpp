@@ -41,7 +41,7 @@ PubSubClient mqttclient(espClient);   // Create client for MQTT
 long lastMqttReconnectAttempt = 0;
 int clientTimeout = 0;
 int i = 0;
-
+String mqtt_data = "";
 
 
 // -------------------------------------------------------------------
@@ -110,41 +110,17 @@ boolean mqtt_connect()
 // -------------------------------------------------------------------
 void mqtt_publish(String data)
 {
-        String mqtt_data = "";
-        String topic = mqtt_topic + "/" + mqtt_feed_prefix;
-        int i=0;
-        while (int(data[i])!=0)
-        {
-                // Construct MQTT topic e.g. <base_topic>/CT1 e.g. emonesp/CT1
-                while (data[i]!=':') {
-                        topic+= data[i];
-                        i++;
-                        if (int(data[i])==0) {
-                                break;
-                        }
-                }
-                i++;
-                // Construct data string to publish to above topic
-                while (data[i]!=',') {
-                        mqtt_data+= data[i];
-                        i++;
-                        if (int(data[i])==0) {
-                                break;
-                        }
-                }
-                // send data via mqtt
-                //delay(100);
-                DEBUG.printf("%s = %s\r\n", topic.c_str(), mqtt_data.c_str());
-                mqttclient.publish(topic.c_str(), mqtt_data.c_str());
-                topic = mqtt_topic + "/" + mqtt_feed_prefix;
-                mqtt_data="";
-                i++;
-                if (int(data[i])==0) break;
-        }
+        mqtt_data = data;
 
-        String ram_topic = mqtt_topic + "/" + mqtt_feed_prefix + "freeram";
-        String free_ram = String(ESP.getFreeHeap());
-        mqttclient.publish(ram_topic.c_str(), free_ram.c_str());
+        // Construct MQTT topic e.g. <base_topic>/CT1 e.g. emonesp/CT1
+
+        // send data via mqtt
+        //delay(100);
+
+
+        //String ram_topic = mqtt_topic + "/" + mqtt_feed_prefix + "freeram";
+        //String free_ram = String(ESP.getFreeHeap());
+        //mqttclient.publish(ram_topic.c_str(), free_ram.c_str());
 }
 
 // -------------------------------------------------------------------
@@ -166,6 +142,11 @@ void mqtt_loop()
         } else {
                 // if MQTT connected
                 mqttclient.loop();
+                if(!mqtt_data.equals("")){
+                  DEBUG.printf("%s = %s\r\n", mqtt_topic.c_str(), mqtt_data.c_str());
+                  mqttclient.publish(mqtt_topic.c_str(), mqtt_data.c_str());
+                  mqtt_data = ""; // message sent!
+              }
         }
 }
 
