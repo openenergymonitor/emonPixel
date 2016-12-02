@@ -1,0 +1,283 @@
+[{
+    "id": "7300df32.29bbe8",
+    "type": "mqtt out",
+    "z": "44c67cb8.102d1c",
+    "name": "pixel",
+    "topic": "emon/emonpixel",
+    "qos": "",
+    "retain": "",
+    "broker": "2d66a263.8f77ce",
+    "x": 801,
+    "y": 153,
+    "wires": []
+}, {
+    "id": "b4748f2f.fccd3",
+    "type": "inject",
+    "z": "44c67cb8.102d1c",
+    "name": "",
+    "topic": "",
+    "payload": "background/10/0/0",
+    "payloadType": "str",
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "x": 150,
+    "y": 94,
+    "wires": [
+        ["7300df32.29bbe8"]
+    ]
+}, {
+    "id": "744b580b.acaaf",
+    "type": "ui_gauge",
+    "z": "44c67cb8.102d1c",
+    "name": "Power",
+    "group": "1d3a5522.f3c413",
+    "order": 2,
+    "width": 0,
+    "height": 0,
+    "gtype": "gage",
+    "title": "Power",
+    "label": "Watts",
+    "format": "{{value}}",
+    "min": 0,
+    "max": "5000",
+    "colors": ["#00B500", "#E6E600", "#CA3838"],
+    "x": 596,
+    "y": 324,
+    "wires": []
+}, {
+    "id": "f99a230a.adc51",
+    "type": "ui_chart",
+    "z": "44c67cb8.102d1c",
+    "name": "",
+    "group": "1d3a5522.f3c413",
+    "order": 3,
+    "width": 0,
+    "height": 0,
+    "label": "chart",
+    "chartType": "line",
+    "legend": "false",
+    "xformat": "%H:%M:%S",
+    "interpolate": "linear",
+    "nodata": "Pwer",
+    "ymin": "",
+    "ymax": "",
+    "removeOlder": "15",
+    "removeOlderUnit": "60",
+    "x": 598,
+    "y": 397,
+    "wires": [
+        [],
+        []
+    ]
+}, {
+    "id": "902e0d06.2f5218",
+    "type": "ui_numeric",
+    "z": "44c67cb8.102d1c",
+    "name": "",
+    "label": "numeric",
+    "group": "1d3a5522.f3c413",
+    "order": 1,
+    "width": 0,
+    "height": 0,
+    "passthru": true,
+    "topic": "",
+    "format": "{{value}}",
+    "min": 0,
+    "max": "5000",
+    "x": 435,
+    "y": 416,
+    "wires": [
+        ["744b580b.acaaf", "f99a230a.adc51", "f2f2d0c3.f38658"]
+    ]
+}, {
+    "id": "f2f2d0c3.f38658",
+    "type": "function",
+    "z": "44c67cb8.102d1c",
+    "name": "make dial",
+    "func": "var newMesg = { payload: \"cdial/40/160/130/\" + msg.payload}\nreturn newMesg\n",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 590,
+    "y": 526,
+    "wires": [
+        ["7300df32.29bbe8"]
+    ]
+}, {
+    "id": "123b772e.7b9b69",
+    "type": "ui_button",
+    "z": "44c67cb8.102d1c",
+    "name": "",
+    "group": "1d3a5522.f3c413",
+    "order": 4,
+    "width": 0,
+    "height": 0,
+    "label": "Hydro",
+    "color": "",
+    "icon": "",
+    "payload": "background/0/0/120",
+    "payloadType": "str",
+    "topic": "",
+    "x": 76,
+    "y": 145,
+    "wires": [
+        ["7300df32.29bbe8"]
+    ]
+}, {
+    "id": "2d3a2af2.39f896",
+    "type": "ui_button",
+    "z": "44c67cb8.102d1c",
+    "name": "",
+    "group": "1d3a5522.f3c413",
+    "order": 8,
+    "width": 0,
+    "height": 0,
+    "label": "Overnight Price",
+    "color": "",
+    "icon": "",
+    "payload": "background/0/40/0",
+    "payloadType": "str",
+    "topic": "",
+    "x": 106,
+    "y": 191,
+    "wires": [
+        ["7300df32.29bbe8"]
+    ]
+}, {
+    "id": "78ede9f8.4e03e8",
+    "type": "ui_button",
+    "z": "44c67cb8.102d1c",
+    "name": "",
+    "group": "1d3a5522.f3c413",
+    "order": 6,
+    "width": 0,
+    "height": 0,
+    "label": "Midday Price",
+    "color": "",
+    "icon": "",
+    "payload": "background/15/30/20",
+    "payloadType": "str",
+    "topic": "",
+    "x": 94,
+    "y": 230,
+    "wires": [
+        ["7300df32.29bbe8"]
+    ]
+}, {
+    "id": "21df420.3bcd83e",
+    "type": "ui_button",
+    "z": "44c67cb8.102d1c",
+    "name": "",
+    "group": "1d3a5522.f3c413",
+    "order": 7,
+    "width": 0,
+    "height": 0,
+    "label": "Evening Price",
+    "color": "",
+    "icon": "",
+    "payload": "background/20/0/0",
+    "payloadType": "str",
+    "topic": "",
+    "x": 99,
+    "y": 271,
+    "wires": [
+        ["7300df32.29bbe8"]
+    ]
+}, {
+    "id": "a61d3b6d.ce6538",
+    "type": "ui_button",
+    "z": "44c67cb8.102d1c",
+    "name": "",
+    "group": "1d3a5522.f3c413",
+    "order": 5,
+    "width": 0,
+    "height": 0,
+    "label": "Morning Price",
+    "color": "",
+    "icon": "",
+    "payload": "background/15/15/0",
+    "payloadType": "str",
+    "topic": "",
+    "x": 106,
+    "y": 310,
+    "wires": [
+        ["7300df32.29bbe8"]
+    ]
+}, {
+    "id": "761f660e.4f3068",
+    "type": "rbe",
+    "z": "44c67cb8.102d1c",
+    "name": "",
+    "func": "rbe",
+    "gap": "",
+    "start": "",
+    "inout": "out",
+    "x": 307,
+    "y": 418,
+    "wires": [
+        ["902e0d06.2f5218"]
+    ]
+}, {
+    "id": "f7901b25.658fe8",
+    "type": "mqtt in",
+    "z": "44c67cb8.102d1c",
+    "name": "power",
+    "topic": "emon/emonpi/power1",
+    "qos": "2",
+    "broker": "2d66a263.8f77ce",
+    "x": 55,
+    "y": 420,
+    "wires": [
+        ["c923c65e.b7fac8"]
+    ]
+}, {
+    "id": "c923c65e.b7fac8",
+    "type": "range",
+    "z": "44c67cb8.102d1c",
+    "minin": "0",
+    "maxin": "8000",
+    "minout": "0",
+    "maxout": "800",
+    "action": "scale",
+    "round": true,
+    "name": "",
+    "x": 194.5,
+    "y": 419,
+    "wires": [
+        ["761f660e.4f3068"]
+    ]
+}, {
+    "id": "2d66a263.8f77ce",
+    "type": "mqtt-broker",
+    "z": "",
+    "broker": "localhost",
+    "port": "1883",
+    "clientid": "",
+    "usetls": false,
+    "verifyservercert": true,
+    "compatmode": true,
+    "keepalive": "60",
+    "cleansession": true,
+    "willTopic": "",
+    "willQos": "0",
+    "willRetain": "false",
+    "willPayload": "",
+    "birthTopic": "",
+    "birthQos": "0",
+    "birthRetain": "false",
+    "birthPayload": ""
+}, {
+    "id": "1d3a5522.f3c413",
+    "type": "ui_group",
+    "z": "",
+    "name": "CydYnni",
+    "tab": "69730d09.738a6c",
+    "disp": true,
+    "width": "6"
+}, {
+    "id": "69730d09.738a6c",
+    "type": "ui_tab",
+    "z": "",
+    "name": "Home",
+    "icon": "dashboard"
+}]
