@@ -160,8 +160,14 @@ The first time platformIO is ran the espressif arduino tool chain and all the re
 `$ pio run -t uploadfs`
 
 See [PlatfomrIO docs regarding SPIFFS uploading](http://docs.platformio.org/en/latest/platforms/espressif.html#uploading-files-to-file-system-spiffs)
+##### c.) upload all in one go
+This wil upload both the fimware and fs in a single command
 
-##### c.) OTA upload over local network
+- Put ESP into bootloader mode
+
+`esptool.py  --port /dev/tty.SLAB_USBtoUART --baud 921600  write_flash 0x000000 .pioenvs/emonpixel/firmware.bin   0x300000 .pioenvs/emonpixel/spiffs.bin`
+
+##### d.) OTA upload over local network
 
 `$  pio run  -t upload --upload-port <LOCAL-ESP-IP-ADDRESS>`
 
