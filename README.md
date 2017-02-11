@@ -58,22 +58,32 @@ emonPixel can be sent stuff over MQTT commands to come
 ### 3.1 MQTT commands
 The commands are based around the following base commands
 
- - background specifies the background colour. Any pixels not filled by a dial in the last fill will remain this colour.
+#### Background
 
- `$basettopic/background/$r/$g/$b`
+Background specifies the background colour. Any pixels not filled by a dial in the last fill will remain this colour.
 
- - cdial Illuminate clockwise. The entire pixel is set to the current background colour then filled in a clockwise direction. If the number to be displayed is larger than can be displayed by the pixel then it will fill completely, blank and then continue to fill
+ Topic: `$basettopic`
+ Message: `background/$r/$g/$b`
 
- `$basettopic/cdial/$r/$g/$b/$n`
+#### Fill command
 
- - adial as pre cdial but the background is not reset and the fill will start from pixel 16 in an anti clockwise direction.
+ - **Fill clockwise:** `cdial` Illuminate clockwise. The entire pixel is set to the current background colour then filled in a clockwise direction. If the number to be displayed is larger than can be displayed by the pixel then it will fill completely, blank and then continue to fill
+ 
+ Topic: `$basettopic`
+ Message `cdial/$r/$g/$b/$n`
+
+ - **Fill anti-clockwise:** `adial` as pre cdial but the background is not reset and the fill will start from pixel 16 in an anti clockwise direction.
 
 
-  `$basettopic/adial/$r/$g/$b/$n`
+  Topic: `$basettopic`
+  Message: `adial/$r/$g/$b/$n`
 
-  - pixel does not reset the background and will set an individual pixel to be the specified colour
+#### Individual Pixel
 
-  `$basettopic/pixel/$r/$g/$b`
+The command `pixel` does not reset the background and will set an individual pixel to be the specified colour:
+
+  Topic: `$basettopic`
+  Message: `$basettopic pixel/$r/$g/$b`
 
   This will draw a clockwise dial starting from the 0th pixel (12 o'clock')
   Each pixel will be illuminated to the colour specified by $r $g $b the $n will dictate the number of pixels illuminated and the brightness of the last pixel.
@@ -93,15 +103,10 @@ Displays free system memory and firmware version
 
 ![system](docs/system.png)
 
-## OTA Firmware Update
-
-TBC
 
 
 
-### Save Emoncms MQTT server details
-
-`http://<IP-ADDRESS>/savemqtt?&server=emonpi&topic=emonesp&user=emonpi&pass=emonpimqtt2016`
+### MQTT server details
 
 *MQTT user and pass are optional, leave blank for connection to un-authenticated MQTT servers*
 
