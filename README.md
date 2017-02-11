@@ -72,8 +72,9 @@ Background specifies the background colour. Any pixels not filled by a dial in t
  Topic: `$basettopic`
  Message `cdial/$r/$g/$b/$n`
 
- - **Fill anti-clockwise:** `adial` as pre cdial but the background is not reset and the fill will start from pixel 16 in an anti clockwise direction.
+*Note: after setting the background adial and or cdial must then be called to take effect*
 
+ - **Fill anti-clockwise:** `adial` as pre cdial but the background is not reset and the fill will start from pixel 16 in an anti clockwise direction.
 
   Topic: `$basettopic`
   Message: `adial/$r/$g/$b/$n`
