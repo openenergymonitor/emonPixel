@@ -5,7 +5,7 @@
 
 ESP8266 WIFI Pixel display
 
-![EmonPixel WiFi AP Setup Portal](docs/emonesp.png)
+![EmonPixel](images/pixel-wall-small.jpg)
 
 ## Requirements
 
@@ -27,19 +27,18 @@ On first boot, ESP should broadcast a WiFI AP `emonPixel_XXX`. Connect to this A
 #### Modes status
 
 - Single pixel flashing red / blue: attemping to connect to WiFi network
-- 3 white LED's and 6 blue: WiFi AP mode
+- Three white pixels and 6 blue pixels: WiFi AP mode
 - Single solid red pixel: Connected to Wifi network
+
+#### Connect to WiFi network
 
 The Pixel should illuminate all LED's in a colour pattern to indicate a normal boot mode. After a few seconds a few white LED's should light, this indicates that the WiFi Pixel is in WiFi Access Point (AP) mode.
 
 A fresh (blank) emonPixel will starup in WiFi access point (AP), 3 white LED's and 6 blue indicate WiFi AP mode.
 
-You should now be able to connect to the emonPixel's AP using a laptop or mobile. The network name will be emonPixel_xxxx where xxx is a number printed on the rear of the unit. When connected the phone or laptop should get automatically forward to the login portal. If this does not happen browser to http://192.186.4.1. Once connected to the login portal (it may take a few moments to load) you should see the WiFi Pixels config page:
+You should now be able to connect to the emonPixel's AP using a laptop or mobile. The network name will be emonPixel_xxxx where xxx is a number printed on the rear of the unit. When connected the phone or laptop should get automatically forward to the login portal via captive portal. If this does not happen browser to http://192.186.4.1. Once connected to the login portal (it may take a few moments to load) you should see the WiFi Pixels config page:
 
 ![](images/wifi-ap.png)
-
-![](images/captive-portal.png)
-
 
 **Note: If the unit has previously been connected to a WiFi network it will attempt to re-connect to this network. To force the unit into WiFi AP mode so we can connect direclty to it to change the WiFi config press and hold the `Boot` button during startup for about 10s until the white LED's indicate AP mode**
 
@@ -55,7 +54,7 @@ You should now be able to connect to the emonPixel's AP using a laptop or mobile
 On future boots emonPixel will automatically connect to this network.
 
 
-*Note on some networks  (ones with MDNS) it's possible to browse to the EmonPixel using hostname [http://emonpixel.local](http://emonpixel.local), *
+*Note on some networks  (ones with MDNS) it's possible to browse to the EmonPixel using hostname [http://emonpixel.local](http://emonpixel.local)*
 
 **If re-connection fails (e.g. network cannot be found) the EmonESP will automatically revert back to WiFi AP mode after a short while to allow a new network to be re-configued if required. Re-connection to existing network will be attempted every 5min.**
 
@@ -67,15 +66,14 @@ On future boots emonPixel will automatically connect to this network.
 
 ## 3. MQTT
 
-
-![mqtt setup](images/mqtt-config.png)
-
 emonPixel can be sent stuff over MQTT commands to come
 
 - Enter MQTT server host and base-topic
 - (Optional) Enter server authentication details if required
 - Click connect
 - After a few seconds `Connected: No` should change to `Connected: Yes` if connection is successful. Re-connection will be attempted every 10s.
+
+![mqtt setup](images/mqtt-config.png)
 
 ### 3.1 MQTT commands
 The commands are based around the following base commands
