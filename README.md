@@ -28,6 +28,7 @@ On first boot, ESP should broadcast a WiFI AP `emonPixel_XXX`. Connect to this A
 
 - Single pixel flashing red / blue: attemping to connect to WiFi network
 - 3 white LED's and 6 blue: WiFi AP mode
+- Single solid red pixel: Connected to Wifi network
 
 The Pixel should illuminate all LED's in a colour pattern to indicate a normal boot mode. After a few seconds a few white LED's should light, this indicates that the WiFi Pixel is in WiFi Access Point (AP) mode.
 
