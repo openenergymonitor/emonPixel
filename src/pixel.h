@@ -53,7 +53,7 @@ void set_c_target_state();
 
 
 void refresh_background();
-void set_all_pixels(RgbColor theColour);
+void set_all_pixels(uint32_t theColour);
 
 
 

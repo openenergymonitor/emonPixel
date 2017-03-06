@@ -20,8 +20,10 @@
  */
 
 #include <pixel.h>
-#include <NeoPixelBus.h>
+//#include <NeoPixelBus.h>
 #include <emonesp.h>
+#include <WS2812FX.h>
+#include <Adafruit_NeoPixel.h>
 
 // ESP Bitbang method using GPIO4
 
@@ -30,40 +32,42 @@
 // NeoPixelBus<NeoGrbFeature, NeoEsp8266BitBang800KbpsMethod> strip(PixelCount, PixelPin);
 // }
 
-NeoPixelBus<NeoGrbFeature, NeoEsp8266BitBang800KbpsMethod> strip(PixelCount, PixelPin);
+//NeoPixelBus<NeoGrbFeature, NeoEsp8266BitBang800KbpsMethod> strip(PixelCount, PixelPin);
+WS2812FX strip = WS2812FX(PixelCount, PixelPin, NEO_GRB + NEO_KHZ400);
 
-RgbColor red(colorSaturation, 0, 0);
-RgbColor green(0, colorSaturation, 0);
-RgbColor blue(0, 0, colorSaturation);
-RgbColor white(colorSaturation);
-RgbColor black(0);
+uint32_t red = strip.Color(colorSaturation, 0, 0);
+uint32_t  green= strip.Color(0, colorSaturation, 0);
+uint32_t  blue= strip.Color(0, 0, colorSaturation);
+uint32_t  white= strip.Color(255,255,255);
+uint32_t  black= strip.Color(0,0,0);
 
 uint8_t c_count = 0;
 uint8_t a_count = 0;
 uint8_t c_target = 0;
 uint8_t a_target = 0;
-RgbColor c_colour= black;
-RgbColor a_colour= black;
+uint32_t c_colour= black;
+uint32_t a_colour= black;
 
-RgbColor bgColour = black;
+uint32_t bgColour = black;
 
 
 void pixel_begin()
 {
         // this resets all the neopixels to an off state
-        strip.Begin();
+        //strip.Begin();
+        strip.init();
         strip.Show();
 }
 
 void set_c_target(uint8_t target , uint8_t red, uint8_t green, uint8_t blue)
 {
-  c_colour = RgbColor(red,green,blue);
+  c_colour = strip.Color(red,green,blue);
   c_target = target;
   c_count = 0;
 }
 void set_a_target(uint8_t target , uint8_t red, uint8_t green, uint8_t blue)
 {
-  a_colour = RgbColor(red,green,blue);
+  a_colour = strip.Color(red,green,blue);
   a_target = target;
   a_count = 0;
 }
@@ -141,7 +145,7 @@ void set_c_target_state(){
 void random_pixel_setup(){
         for (uint16_t pixel = 0; pixel < PixelCount; pixel++)
         {
-                RgbColor color = RgbColor(random(255), random(255), random(255));
+                uint32_t color = strip.Color(random(255), random(255), random(255));
                 strip.SetPixelColor(pixel, color);
         }
         strip.Show();
@@ -182,13 +186,13 @@ void pixel_off(){
 }
 void set_pixel(uint8_t pixel, uint8_t red, uint8_t green, uint8_t blue)
 {
-  strip.SetPixelColor(pixel, RgbColor(red,green,blue));
+  strip.SetPixelColor(pixel, strip.Color(red,green,blue));
   strip.Show();
 }
 void set_background(uint8_t red, uint8_t green, uint8_t blue)
 {
   DEBUG.println("Set backgorund to red: " + String(red) + " Green: " + String(green) + " Blue: " + String(blue) );
-  bgColour =  RgbColor(red,green,blue);
+  bgColour =  strip.Color(red,green,blue);
   //refresh_background();
 }
 
@@ -200,7 +204,7 @@ void refresh_background(){
   strip.Show();
 
 }
-void set_all_pixels(RgbColor theColour){
+void set_all_pixels(uint32_t theColour){
   for (uint16_t pixel = 0; pixel < PixelCount; pixel++)
   {
     strip.SetPixelColor(pixel,theColour);
