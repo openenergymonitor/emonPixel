@@ -32,7 +32,7 @@
 
 #include <Arduino.h>
 #include <parser.h>
-
+#include <pixel.h>
 
 // -------------------------------------------------------------------
 // Perform the background MQTT operations. Must be called in the main

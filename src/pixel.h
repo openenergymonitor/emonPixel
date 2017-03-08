@@ -27,7 +27,8 @@
 #define _EMONESP_PIXEL_H
 
 #include <Arduino.h>
-#include <NeoPixelBus.h>
+#include <WS2812FX.h>
+#include <Adafruit_NeoPixel.h>
 
 #define PIXEL //enable pixel
 
@@ -44,6 +45,13 @@ extern void set_background(uint8_t red, uint8_t green, uint8_t blue);
 extern void pixel_off();
 extern void set_c_target(uint8_t target , uint8_t red, uint8_t green, uint8_t blue);
 extern void set_a_target(uint8_t target , uint8_t red, uint8_t green, uint8_t blue);
+extern void set_ap_mode();
+extern void set_wifi_count(uint8_t count);
+extern void set_mqtt_connecting();
+extern void set_mqtt_connected();
+extern void pixel_loop();
+extern void stop_animations();
+
 
 void update_c_target();
 void update_a_target();

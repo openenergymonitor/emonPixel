@@ -52,6 +52,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
         DEBUG.println(topic);
         DEBUG.println("] ");
         String command = "";
+        stop_animations();
         for (int i= 0; i < length; i++)
         {
                 command.concat((char)payload[i]);
@@ -85,11 +86,13 @@ void callback(char* topic, byte* payload, unsigned int length) {
 // -------------------------------------------------------------------
 boolean mqtt_connect()
 {
+        set_mqtt_connecting();
         mqttclient.setServer(mqtt_server.c_str(), 1883);
         DEBUG.println("MQTT Connecting...");
         String strID = String(ESP.getChipId());
         if (mqttclient.connect(strID.c_str(), mqtt_user.c_str(), mqtt_pass.c_str())) { // Attempt to connect
                 DEBUG.println("MQTT connected");
+                set_mqtt_connected();
                 mqttclient.publish(mqtt_topic.c_str(), "connected"); // Once connected, publish an announcement..
                 mqttclient.subscribe(mqtt_topic.c_str());
                 mqttclient.setCallback(callback);
@@ -131,6 +134,7 @@ void mqtt_publish(String data)
 void mqtt_loop()
 {
         if (!mqttclient.connected()) {
+                set_mqtt_connecting();
                 long now = millis();
                 // try and reconnect continuously for first 5s then try again once every 10s
                 if ( (now < 50000) || ((now - lastMqttReconnectAttempt)  > 100000) ) {

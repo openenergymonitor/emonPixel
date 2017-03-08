@@ -63,9 +63,7 @@ int wifi_mode = WIFI_MODE_STA;
 // -------------------------------------------------------------------
 void startAP() {
   DEBUG.print("Starting AP");
-  set_pixel(13,100,100,100);
-  set_pixel(12,100,100,100);
-  set_pixel(11,100,100,100);
+  set_ap_mode();
 
   WiFi.mode(WIFI_STA);
   WiFi.disconnect();
@@ -115,27 +113,33 @@ void startClient() {
 
   int t = 0;
   int attempt = 0;
-  while (WiFi.status() != WL_CONNECTED){
-    if (t%2 == 1){
-      set_pixel(attempt,0,0,255);
-    }
-    else{
-      set_pixel(attempt,64,0,0);
+  set_wifi_count(attempt);
 
+  while (WiFi.status() != WL_CONNECTED){
+    DEBUG.println("Try Again...");
+
+    for(int j = 0 ; j < 50; j++)
+    {
+      pixel_loop();
+      delay(10);
     }
-    delay(500);
     t++;
+
     if (t >= 20 || digitalRead(0) == LOW){
 
-      DEBUG.println(" ");
-      DEBUG.println("Try Again...");
-      delay(2000);
+      DEBUG.println("Wait...");
+      for(int j = 0 ; j < 200; j++)
+      {
+        pixel_loop();
+        delay(10);
+      }
       WiFi.disconnect();
       WiFi.begin(esid.c_str(), epass.c_str());
       t = 0;
       attempt++;
-      set_pixel(attempt,0,0,255);
-      if (attempt >= 5 || digitalRead(0) == LOW){
+      set_wifi_count(attempt);
+
+      if (attempt >= 4 || digitalRead(0) == LOW){
         startAP();
         // AP mode with SSID in EEPROM, connection will retry in 5 minutes
         wifi_mode = WIFI_MODE_AP_STA_RETRY;

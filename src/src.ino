@@ -35,13 +35,14 @@
 #include "parsertest.h"
 #include "button.h"
 
-boolean blink = false;
 // -------------------------------------------------------------------
 // SETUP
 // -------------------------------------------------------------------
 void setup() {
 
-        delay(1000);
+        delay(500);
+        pixel_begin();
+        pixel_rgb_demo();
 
         Serial.begin(9600);
 #ifdef DEBUG_SERIAL1
@@ -52,8 +53,6 @@ void setup() {
         DEBUG.print("EmonESP ");
         DEBUG.println(ESP.getChipId());
         DEBUG.println("Firmware: "+ currentfirmware);
-        pixel_begin();
-        pixel_rgb_demo();
         delay(1000);
         pixel_off();
 
@@ -91,7 +90,7 @@ void loop()
         ota_loop();
         web_server_loop();
         wifi_loop();
-
+        pixel_loop();
 
         yield();
 
@@ -107,16 +106,8 @@ void loop()
                 }
                 update_c_target();
                 update_a_target();
+
         }
-        else
-        {
-                delay(100);
-                if(blink) {
-                        set_pixel(10,60,0,0);
-                }
-                else{
-                        set_pixel(10,0,0,0);
-                }
-        }
+
 
 } // end loop
