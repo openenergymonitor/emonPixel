@@ -52,7 +52,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
         DEBUG.println(topic);
         DEBUG.println("] ");
         String command = "";
-        stop_animations();
+        //stop_animations();
         for (int i= 0; i < length; i++)
         {
                 command.concat((char)payload[i]);
@@ -65,12 +65,15 @@ void callback(char* topic, byte* payload, unsigned int length) {
                 set_background(get_red(command), get_green(command), get_blue(command));
                 break;
         case 3:
+                stop_animations();
                 set_pixel(get_count(command), get_red(command), get_green(command), get_blue(command));
                 break;
         case 1:
+                stop_animations();
                 set_c_target(get_count(command), get_red(command), get_green(command), get_blue(command));
                 break;
         case 2:
+                stop_animations();
                 set_a_target(get_count(command), get_red(command), get_green(command), get_blue(command));
                 break;
 
@@ -86,7 +89,6 @@ void callback(char* topic, byte* payload, unsigned int length) {
 // -------------------------------------------------------------------
 boolean mqtt_connect()
 {
-        set_mqtt_connecting();
         mqttclient.setServer(mqtt_server.c_str(), 1883);
         DEBUG.println("MQTT Connecting...");
         String strID = String(ESP.getChipId());
@@ -135,22 +137,18 @@ void mqtt_loop()
 {
         if (!mqttclient.connected()) {
                 set_mqtt_connecting();
-                long now = millis();
-                // try and reconnect continuously for first 5s then try again once every 10s
-                if ( (now < 50000) || ((now - lastMqttReconnectAttempt)  > 100000) ) {
-                        lastMqttReconnectAttempt = now;
-                        if (mqtt_connect()) { // Attempt to reconnect
-                                lastMqttReconnectAttempt = 0;
-                        }
+                if (!mqtt_connect())
+                {
+                  delay(500);
                 }
         } else {
                 // if MQTT connected
                 mqttclient.loop();
-                if(!mqtt_data.equals("")){
-                  DEBUG.printf("%s = %s\r\n", mqtt_topic.c_str(), mqtt_data.c_str());
-                  mqttclient.publish(mqtt_topic.c_str(), mqtt_data.c_str());
-                  mqtt_data = ""; // message sent!
-              }
+                if(!mqtt_data.equals("")) {
+                        DEBUG.printf("%s = %s\r\n", mqtt_topic.c_str(), mqtt_data.c_str());
+                        mqttclient.publish(mqtt_topic.c_str(), mqtt_data.c_str());
+                        mqtt_data = ""; // message sent!
+                }
         }
 }
 

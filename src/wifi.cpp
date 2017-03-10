@@ -113,7 +113,7 @@ void startClient() {
 
   int t = 0;
   int attempt = 0;
-  set_wifi_count(attempt);
+  set_wifi_count(1); // Green Breath
 
   while (WiFi.status() != WL_CONNECTED){
     DEBUG.println("Try Again...");
@@ -121,7 +121,7 @@ void startClient() {
     for(int j = 0 ; j < 50; j++)
     {
       pixel_loop();
-      delay(10);
+      delay(5);
     }
     t++;
 
@@ -131,13 +131,13 @@ void startClient() {
       for(int j = 0 ; j < 200; j++)
       {
         pixel_loop();
-        delay(10);
+        delay(5);
       }
       WiFi.disconnect();
       WiFi.begin(esid.c_str(), epass.c_str());
       t = 0;
       attempt++;
-      set_wifi_count(attempt);
+      //set_wifi_count(attempt);
 
       if (attempt >= 4 || digitalRead(0) == LOW){
         startAP();
@@ -157,6 +157,7 @@ void startClient() {
     // Copy the connected network and ipaddress to global strings for use in status request
     connected_network = esid;
     ipaddress = tmpStr;
+    set_mqtt_connecting();
   }
 }
 

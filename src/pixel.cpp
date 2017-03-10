@@ -59,18 +59,21 @@ void pixel_begin()
 
 void set_c_target(uint8_t target, uint8_t red, uint8_t green, uint8_t blue)
 {
+
         c_colour = strip.Color(red,green,blue);
         c_target = target;
         c_count = 0;
 }
 void set_a_target(uint8_t target, uint8_t red, uint8_t green, uint8_t blue)
 {
+
         a_colour = strip.Color(red,green,blue);
         a_target = target;
         a_count = 0;
 }
 void update_a_target()
 {
+
         if (a_count == a_target || c_target != c_count) { // always go clockwise first
                 return; //target reached do nothing
         }
@@ -212,10 +215,10 @@ void set_all_pixels(uint32_t theColour){
 }
 
 void set_ap_mode(){
-strip.stop();
+        strip.stop();
         strip.setSpeed(100);
         strip.setColor(blue);
-        strip.setMode(FX_MODE_CHASE_RAINBOW);
+        strip.setMode(FX_MODE_RAINBOW_CYCLE);
         //strip.setMode(FX_MODE_BREATH);
 
         strip.start();
@@ -223,7 +226,7 @@ strip.stop();
 }
 
 void set_wifi_count(uint8_t count){
-  strip.stop();
+        strip.stop();
 
         uint32_t col=white;
         switch (count % 4) {
@@ -237,7 +240,7 @@ void set_wifi_count(uint8_t count){
                 col = blue;
                 break;
         case 3:
-          col = white;
+                col = white;
                 break;
 
         }
@@ -248,24 +251,43 @@ void set_wifi_count(uint8_t count){
         strip.start();
 
 }
- void set_mqtt_connecting() {
-   strip.setSpeed(200);
-   strip.setColor(blue);
-   strip.setMode(FX_MODE_LARSON_SCANNER);
-   strip.start();
- }
- void set_mqtt_connected() {
-   strip.stop();
+void set_mqtt_connecting() {
 
-   strip.setSpeed(100);
-   strip.setColor(blue);
-   strip.setMode(FX_MODE_COLOR_WIPE);
-   strip.start();
- }
+  //connect blocks so can't do much here :()
+
+        strip.stop();
+        //pixel_rgb_demo()
+        //strip.setSpeed(200);
+        delay(500);
+        strip.setColor(red);
+        strip.setMode(FX_MODE_RAINBOW_CYCLE);
+        for(int i =0; i < PixelCount; i++)
+        strip.start();
+        {
+          strip.service();
+        }
+
+        strip.setSpeed(0);
+}
+void set_mqtt_connected() {
+        strip.stop();
+
+        strip.setSpeed(100);
+        strip.setColor(blue);
+        strip.setMode(FX_MODE_COLOR_WIPE);
+        strip.start();
+}
 extern void pixel_loop(){
-        strip.service();
+        if(strip.isRunning())
+        {
+                strip.service();
+        }
+        yield();
 }
 extern void stop_animations()
 {
-        strip.stop();
+        if(strip.isRunning())
+        {
+                strip.stop();
+        }
 }
