@@ -1,0 +1,385 @@
+[
+  {
+    "id": "4b4d40a2.5a63",
+    "type": "mqtt in",
+    "z": "4d363e24.95a48",
+    "name": "power",
+    "topic": "emon/emonpi/power1",
+    "qos": "2",
+    "broker": "37b5dabf.9cb0e6",
+    "x": 100,
+    "y": 517,
+    "wires": [
+      [
+        "6e91c492.5d757c"
+      ]
+    ]
+  },
+  {
+    "id": "6e91c492.5d757c",
+    "type": "range",
+    "z": "4d363e24.95a48",
+    "minin": "0",
+    "maxin": "8000",
+    "minout": "0",
+    "maxout": "64",
+    "action": "scale",
+    "round": true,
+    "name": "",
+    "x": 302,
+    "y": 518,
+    "wires": [
+      [
+        "b6c40d14.2156b"
+      ]
+    ]
+  },
+  {
+    "id": "b6c40d14.2156b",
+    "type": "rbe",
+    "z": "4d363e24.95a48",
+    "name": "",
+    "func": "rbe",
+    "gap": "",
+    "start": "",
+    "inout": "out",
+    "x": 481.5,
+    "y": 519,
+    "wires": [
+      [
+        "42700248.06cc2c"
+      ]
+    ]
+  },
+  {
+    "id": "1a2cd6c1.648e99",
+    "type": "mqtt out",
+    "z": "4d363e24.95a48",
+    "name": "pixel",
+    "topic": "emon/emonpixel",
+    "qos": "",
+    "retain": "",
+    "broker": "37b5dabf.9cb0e6",
+    "x": 1289.5,
+    "y": 527,
+    "wires": []
+  },
+  {
+    "id": "42700248.06cc2c",
+    "type": "emonpixel-clockwise",
+    "z": "4d363e24.95a48",
+    "name": "White Dial",
+    "red": "40",
+    "green": "160",
+    "blue": "130",
+    "x": 974.5,
+    "y": 524,
+    "wires": [
+      [
+        "1a2cd6c1.648e99"
+      ]
+    ]
+  },
+  {
+    "id": "deaa17de.ad3398",
+    "type": "emonpixel-background",
+    "z": "4d363e24.95a48",
+    "name": "",
+    "x": 1027.5,
+    "y": 731,
+    "wires": [
+      [
+        "1a2cd6c1.648e99"
+      ]
+    ]
+  },
+  {
+    "id": "a2955145.96877",
+    "type": "rbe",
+    "z": "4d363e24.95a48",
+    "name": "",
+    "func": "rbe",
+    "gap": "",
+    "start": "",
+    "inout": "out",
+    "x": 540.5,
+    "y": 635,
+    "wires": [
+      [
+        "7130c480.1eff8c"
+      ]
+    ]
+  },
+  {
+    "id": "20ed4613.e9f07a",
+    "type": "mqtt in",
+    "z": "4d363e24.95a48",
+    "name": "Import",
+    "topic": "emon/emonpi/power1",
+    "qos": "2",
+    "broker": "37b5dabf.9cb0e6",
+    "x": 55,
+    "y": 753,
+    "wires": [
+      [
+        "ac754348.21cd6"
+      ]
+    ]
+  },
+  {
+    "id": "33f4248.a120edc",
+    "type": "rbe",
+    "z": "4d363e24.95a48",
+    "name": "",
+    "func": "rbe",
+    "gap": "",
+    "start": "",
+    "inout": "out",
+    "x": 520,
+    "y": 823,
+    "wires": [
+      [
+        "2e233da6.9dfcf2"
+      ]
+    ]
+  },
+  {
+    "id": "ac754348.21cd6",
+    "type": "switch",
+    "z": "4d363e24.95a48",
+    "name": "",
+    "property": "payload",
+    "propertyType": "msg",
+    "rules": [
+      {
+        "t": "lt",
+        "v": "0",
+        "vt": "num"
+      },
+      {
+        "t": "gte",
+        "v": "0",
+        "vt": "num"
+      }
+    ],
+    "checkall": "true",
+    "outputs": 2,
+    "x": 175.5,
+    "y": 752,
+    "wires": [
+      [
+        "7701526d.1f281c"
+      ],
+      [
+        "7353593d.3b01c8"
+      ]
+    ]
+  },
+  {
+    "id": "7353593d.3b01c8",
+    "type": "range",
+    "z": "4d363e24.95a48",
+    "minin": "0",
+    "maxin": "8000",
+    "minout": "0",
+    "maxout": "255",
+    "action": "scale",
+    "round": false,
+    "name": "Import (positive)",
+    "x": 337.5,
+    "y": 823,
+    "wires": [
+      [
+        "33f4248.a120edc"
+      ]
+    ]
+  },
+  {
+    "id": "7701526d.1f281c",
+    "type": "range",
+    "z": "4d363e24.95a48",
+    "minin": "-1",
+    "maxin": "-4000",
+    "minout": "0",
+    "maxout": "255",
+    "action": "scale",
+    "round": false,
+    "name": "export Range (negative)",
+    "x": 359.5,
+    "y": 639,
+    "wires": [
+      [
+        "a2955145.96877"
+      ]
+    ]
+  },
+  {
+    "id": "7130c480.1eff8c",
+    "type": "function",
+    "z": "4d363e24.95a48",
+    "name": "Red Background CSV",
+    "func": "var newMesg = { payload:  msg.payload + \",0,0\"}\nreturn newMesg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 731.5,
+    "y": 638,
+    "wires": [
+      [
+        "deaa17de.ad3398"
+      ]
+    ]
+  },
+  {
+    "id": "2e233da6.9dfcf2",
+    "type": "function",
+    "z": "4d363e24.95a48",
+    "name": "Green Background CSV",
+    "func": "var newMesg = { payload: \"0,\" + msg.payload + \",0\"}\nreturn newMesg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 734,
+    "y": 829,
+    "wires": [
+      [
+        "deaa17de.ad3398"
+      ]
+    ]
+  },
+  {
+    "id": "9affb797.226258",
+    "type": "inject",
+    "z": "4d363e24.95a48",
+    "name": "",
+    "topic": "",
+    "payload": "1,2,3",
+    "payloadType": "str",
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "x": 83.5,
+    "y": 136,
+    "wires": [
+      [
+        "bc05495.ea878b8"
+      ]
+    ]
+  },
+  {
+    "id": "1b3f6fb4.005ee",
+    "type": "inject",
+    "z": "4d363e24.95a48",
+    "name": "",
+    "topic": "",
+    "payload": "15",
+    "payloadType": "num",
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "x": 83.5,
+    "y": 212,
+    "wires": [
+      [
+        "21d8cc24.0ebf44",
+        "316c74a2.68b41c"
+      ]
+    ]
+  },
+  {
+    "id": "c9ec694d.0a24c8",
+    "type": "inject",
+    "z": "4d363e24.95a48",
+    "name": "",
+    "topic": "",
+    "payload": "10,11,12,15",
+    "payloadType": "str",
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "x": 101,
+    "y": 293,
+    "wires": [
+      [
+        "21d8cc24.0ebf44",
+        "316c74a2.68b41c"
+      ]
+    ]
+  },
+  {
+    "id": "bc05495.ea878b8",
+    "type": "emonpixel-background",
+    "z": "4d363e24.95a48",
+    "name": "",
+    "x": 356.5,
+    "y": 145,
+    "wires": [
+      [
+        "f085c9f9.4c45e8"
+      ]
+    ]
+  },
+  {
+    "id": "21d8cc24.0ebf44",
+    "type": "emonpixel-clockwise",
+    "z": "4d363e24.95a48",
+    "name": "",
+    "red": "255",
+    "green": "0",
+    "blue": "0",
+    "x": 351.5,
+    "y": 215,
+    "wires": [
+      [
+        "f085c9f9.4c45e8"
+      ]
+    ]
+  },
+  {
+    "id": "316c74a2.68b41c",
+    "type": "emonpixel-anticlockwise",
+    "z": "4d363e24.95a48",
+    "name": "",
+    "red": "0",
+    "green": "255",
+    "blue": "0",
+    "x": 369.5,
+    "y": 292,
+    "wires": [
+      [
+        "f085c9f9.4c45e8"
+      ]
+    ]
+  },
+  {
+    "id": "f085c9f9.4c45e8",
+    "type": "debug",
+    "z": "4d363e24.95a48",
+    "name": "",
+    "active": true,
+    "console": "true",
+    "complete": "payload",
+    "x": 630.5,
+    "y": 225,
+    "wires": []
+  },
+  {
+    "id": "37b5dabf.9cb0e6",
+    "type": "mqtt-broker",
+    "z": "",
+    "broker": "emon",
+    "port": "1883",
+    "clientid": "",
+    "usetls": false,
+    "verifyservercert": true,
+    "compatmode": true,
+    "keepalive": "15",
+    "cleansession": true,
+    "willTopic": "",
+    "willQos": "0",
+    "willRetain": "false",
+    "willPayload": "",
+    "birthTopic": "",
+    "birthQos": "0",
+    "birthRetain": "false",
+    "birthPayload": ""
+  }
+]
