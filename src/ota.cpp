@@ -42,7 +42,7 @@ ESP8266HTTPUpdateServer httpUpdater;  // Create class for webupdate handleWebUpd
 // -------------------------------------------------------------------
 //UPDATE SERVER strings and interfers for upate server
 // Array of strings Used to check firmware version
-const char* u_host = "217.9.195.227";
+const char* u_host = "";
 const char* u_url = "/esp/firmware.php";
 const char* firmware_update_path = "/upload";
 
