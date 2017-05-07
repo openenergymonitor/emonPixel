@@ -16,7 +16,8 @@
     "y": 485.25000762939,
     "wires": [
       [
-        "24593ac6.3fc506"
+        "24593ac6.3fc506",
+        "c03bebf4.2fde48"
       ]
     ]
   },
@@ -129,7 +130,8 @@
     "y": 621.25000953674,
     "wires": [
       [
-        "2f988d87.11e412"
+        "2f988d87.11e412",
+        "c03bebf4.2fde48"
       ]
     ]
   },
@@ -224,11 +226,11 @@
     "id": "5ec76811.7c5138",
     "type": "function",
     "z": "cc94a713.7bd6a8",
-    "name": "Red Background RGB CSV",
-    "func": "var newMesg = { payload:  msg.payload + \",0,0\"}\nreturn newMesg;",
+    "name": "Green Background RGB CSV",
+    "func": "var newMesg = { payload: \"0,\" + msg.payload + \",0\"}\nreturn newMesg;",
     "outputs": 1,
     "noerr": 0,
-    "x": 840.5,
+    "x": 850.5,
     "y": 605,
     "wires": [
       [
@@ -240,11 +242,11 @@
     "id": "48cad3de.cf53ac",
     "type": "function",
     "z": "cc94a713.7bd6a8",
-    "name": "Green Background RBG CSV",
-    "func": "var newMesg = { payload: \"0,\" + msg.payload + \",0\"}\nreturn newMesg;",
+    "name": "Red Background RBG CSV",
+    "func": "var newMesg = { payload:  msg.payload + \",0,0\"}\nreturn newMesg;",
     "outputs": 1,
     "noerr": 0,
-    "x": 843,
+    "x": 833,
     "y": 796,
     "wires": [
       [
@@ -369,6 +371,20 @@
     "complete": "payload",
     "x": 719.5,
     "y": 192,
+    "wires": [
+      
+    ]
+  },
+  {
+    "id": "c03bebf4.2fde48",
+    "type": "debug",
+    "z": "cc94a713.7bd6a8",
+    "name": "",
+    "active": true,
+    "console": "false",
+    "complete": "false",
+    "x": 299.375,
+    "y": 398.125,
     "wires": [
       
     ]
