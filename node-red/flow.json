@@ -56,7 +56,7 @@
     "type": "mqtt out",
     "z": "4d363e24.95a48",
     "name": "pixel",
-    "topic": "emon/emonpixel",
+    "topic": "emonpixel",
     "qos": "",
     "retain": "",
     "broker": "37b5dabf.9cb0e6",
