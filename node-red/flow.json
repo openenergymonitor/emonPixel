@@ -1,413 +1,452 @@
 [
-  {
-    "id": "cc94a713.7bd6a8",
-    "type": "tab",
-    "label": "emonPixel"
-  },
-  {
-    "id": "950bdd51.2120b",
-    "type": "mqtt in",
-    "z": "cc94a713.7bd6a8",
-    "name": "Power Feed (MQTT)",
-    "topic": "emon\/emonpi\/power1",
-    "qos": "2",
-    "broker": "396670b0.0ef31",
-    "x": 115.25,
-    "y": 485.25000762939,
-    "wires": [
-      [
-        "24593ac6.3fc506",
-        "c03bebf4.2fde48"
-      ]
-    ]
-  },
-  {
-    "id": "24593ac6.3fc506",
-    "type": "range",
-    "z": "cc94a713.7bd6a8",
-    "minin": "0",
-    "maxin": "8000",
-    "minout": "0",
-    "maxout": "64",
-    "action": "scale",
-    "round": true,
-    "name": "",
-    "x": 391,
-    "y": 485,
-    "wires": [
-      [
-        "252762e5.b6c99e"
-      ]
-    ]
-  },
-  {
-    "id": "252762e5.b6c99e",
-    "type": "rbe",
-    "z": "cc94a713.7bd6a8",
-    "name": "",
-    "func": "rbe",
-    "gap": "",
-    "start": "",
-    "inout": "out",
-    "x": 570.5,
-    "y": 486,
-    "wires": [
-      [
-        "e5d4fab6.9c8d88"
-      ]
-    ]
-  },
-  {
-    "id": "b3be8d2c.057d",
-    "type": "mqtt out",
-    "z": "cc94a713.7bd6a8",
-    "name": "pixel MQTT",
-    "topic": "emonpixel",
-    "qos": "",
-    "retain": "",
-    "broker": "396670b0.0ef31",
-    "x": 1254.7500190735,
-    "y": 527.75000762939,
-    "wires": [
-      
-    ]
-  },
-  {
-    "id": "e5d4fab6.9c8d88",
-    "type": "emonpixel-clockwise",
-    "z": "cc94a713.7bd6a8",
-    "name": "White Dial",
-    "red": "40",
-    "green": "160",
-    "blue": "130",
-    "x": 767.25001525879,
-    "y": 481.00000762939,
-    "wires": [
-      [
-        "b3be8d2c.057d"
-      ]
-    ]
-  },
-  {
-    "id": "553e4750.600018",
-    "type": "emonpixel-background",
-    "z": "cc94a713.7bd6a8",
-    "name": "",
-    "x": 1087.7500152588,
-    "y": 670.50000953674,
-    "wires": [
-      [
-        "b3be8d2c.057d"
-      ]
-    ]
-  },
-  {
-    "id": "d2a71ec9.005de",
-    "type": "rbe",
-    "z": "cc94a713.7bd6a8",
-    "name": "",
-    "func": "rbe",
-    "gap": "",
-    "start": "",
-    "inout": "out",
-    "x": 629.5,
-    "y": 602,
-    "wires": [
-      [
-        "5ec76811.7c5138"
-      ]
-    ]
-  },
-  {
-    "id": "a2c09148.65987",
-    "type": "mqtt in",
-    "z": "cc94a713.7bd6a8",
-    "name": "Import \/ Export Feed (MQTT)",
-    "topic": "emon\/emonpi\/power2",
-    "qos": "2",
-    "broker": "396670b0.0ef31",
-    "x": 131.50000762939,
-    "y": 621.25000953674,
-    "wires": [
-      [
-        "2f988d87.11e412",
-        "c03bebf4.2fde48"
-      ]
-    ]
-  },
-  {
-    "id": "21f36ad3.44b106",
-    "type": "rbe",
-    "z": "cc94a713.7bd6a8",
-    "name": "",
-    "func": "rbe",
-    "gap": "",
-    "start": "",
-    "inout": "out",
-    "x": 609,
-    "y": 790,
-    "wires": [
-      [
-        "48cad3de.cf53ac"
-      ]
-    ]
-  },
-  {
-    "id": "2f988d87.11e412",
-    "type": "switch",
-    "z": "cc94a713.7bd6a8",
-    "name": "",
-    "property": "payload",
-    "propertyType": "msg",
-    "rules": [
-      {
-        "t": "lt",
-        "v": "0",
-        "vt": "num"
-      },
-      {
-        "t": "gte",
-        "v": "0",
-        "vt": "num"
-      }
-    ],
-    "checkall": "true",
-    "outputs": 2,
-    "x": 264.5,
-    "y": 719,
-    "wires": [
-      [
-        "6a6aa83c.9a1488"
-      ],
-      [
-        "fed6c02.cef524"
-      ]
-    ]
-  },
-  {
-    "id": "fed6c02.cef524",
-    "type": "range",
-    "z": "cc94a713.7bd6a8",
-    "minin": "0",
-    "maxin": "8000",
-    "minout": "0",
-    "maxout": "255",
-    "action": "scale",
-    "round": false,
-    "name": "Import (positive)",
-    "x": 426.5,
-    "y": 790,
-    "wires": [
-      [
-        "21f36ad3.44b106"
-      ]
-    ]
-  },
-  {
-    "id": "6a6aa83c.9a1488",
-    "type": "range",
-    "z": "cc94a713.7bd6a8",
-    "minin": "-1",
-    "maxin": "-4000",
-    "minout": "0",
-    "maxout": "255",
-    "action": "scale",
-    "round": false,
-    "name": "export Range (negative)",
-    "x": 448.5,
-    "y": 606,
-    "wires": [
-      [
-        "d2a71ec9.005de"
-      ]
-    ]
-  },
-  {
-    "id": "5ec76811.7c5138",
-    "type": "function",
-    "z": "cc94a713.7bd6a8",
-    "name": "Green Background RGB CSV",
-    "func": "var newMesg = { payload: \"0,\" + msg.payload + \",0\"}\nreturn newMesg;",
-    "outputs": 1,
-    "noerr": 0,
-    "x": 850.5,
-    "y": 605,
-    "wires": [
-      [
-        "553e4750.600018"
-      ]
-    ]
-  },
-  {
-    "id": "48cad3de.cf53ac",
-    "type": "function",
-    "z": "cc94a713.7bd6a8",
-    "name": "Red Background RBG CSV",
-    "func": "var newMesg = { payload:  msg.payload + \",0,0\"}\nreturn newMesg;",
-    "outputs": 1,
-    "noerr": 0,
-    "x": 833,
-    "y": 796,
-    "wires": [
-      [
-        "553e4750.600018"
-      ]
-    ]
-  },
-  {
-    "id": "d0537219.d1939",
-    "type": "inject",
-    "z": "cc94a713.7bd6a8",
-    "name": "",
-    "topic": "",
-    "payload": "1,2,3",
-    "payloadType": "str",
-    "repeat": "",
-    "crontab": "",
-    "once": false,
-    "x": 172.5,
-    "y": 103,
-    "wires": [
-      [
-        "a6797cea.8ab9d"
-      ]
-    ]
-  },
-  {
-    "id": "808d27da.431db8",
-    "type": "inject",
-    "z": "cc94a713.7bd6a8",
-    "name": "",
-    "topic": "",
-    "payload": "15",
-    "payloadType": "num",
-    "repeat": "",
-    "crontab": "",
-    "once": false,
-    "x": 172.5,
-    "y": 179,
-    "wires": [
-      [
-        "8c012878.8732f8",
-        "6b81e414.eeb2fc"
-      ]
-    ]
-  },
-  {
-    "id": "5f24faa4.7bb6e4",
-    "type": "inject",
-    "z": "cc94a713.7bd6a8",
-    "name": "",
-    "topic": "",
-    "payload": "10,11,12,15",
-    "payloadType": "str",
-    "repeat": "",
-    "crontab": "",
-    "once": false,
-    "x": 190,
-    "y": 260,
-    "wires": [
-      [
-        "8c012878.8732f8",
-        "6b81e414.eeb2fc"
-      ]
-    ]
-  },
-  {
-    "id": "a6797cea.8ab9d",
-    "type": "emonpixel-background",
-    "z": "cc94a713.7bd6a8",
-    "name": "",
-    "x": 445.5,
-    "y": 112,
-    "wires": [
-      [
-        "e12f6209.fdd1c",
-        "b3be8d2c.057d"
-      ]
-    ]
-  },
-  {
-    "id": "8c012878.8732f8",
-    "type": "emonpixel-clockwise",
-    "z": "cc94a713.7bd6a8",
-    "name": "",
-    "red": "255",
-    "green": "0",
-    "blue": "0",
-    "x": 440.5,
-    "y": 182,
-    "wires": [
-      [
-        "e12f6209.fdd1c",
-        "b3be8d2c.057d"
-      ]
-    ]
-  },
-  {
-    "id": "6b81e414.eeb2fc",
-    "type": "emonpixel-anticlockwise",
-    "z": "cc94a713.7bd6a8",
-    "name": "",
-    "red": "0",
-    "green": "255",
-    "blue": "0",
-    "x": 458.5,
-    "y": 259,
-    "wires": [
-      [
-        "e12f6209.fdd1c",
-        "b3be8d2c.057d"
-      ]
-    ]
-  },
-  {
-    "id": "e12f6209.fdd1c",
-    "type": "debug",
-    "z": "cc94a713.7bd6a8",
-    "name": "",
-    "active": true,
-    "console": "true",
-    "complete": "payload",
-    "x": 719.5,
-    "y": 192,
-    "wires": [
-      
-    ]
-  },
-  {
-    "id": "c03bebf4.2fde48",
-    "type": "debug",
-    "z": "cc94a713.7bd6a8",
-    "name": "",
-    "active": true,
-    "console": "false",
-    "complete": "false",
-    "x": 299.375,
-    "y": 398.125,
-    "wires": [
-      
-    ]
-  },
-  {
-    "id": "396670b0.0ef31",
-    "type": "mqtt-broker",
-    "z": "",
-    "broker": "localhost",
-    "port": "1883",
-    "clientid": "",
-    "usetls": false,
-    "verifyservercert": true,
-    "compatmode": true,
-    "keepalive": "15",
-    "cleansession": true,
-    "willTopic": "",
-    "willQos": "0",
-    "willRetain": "false",
-    "willPayload": "",
-    "birthTopic": "",
-    "birthQos": "0",
-    "birthRetain": "false",
-    "birthPayload": ""
-  }
+    {
+        "id": "cac3faf3.806b8",
+        "type": "tab",
+        "label": "emonPixel"
+    },
+    {
+        "id": "e8d3b2af.7c73c8",
+        "type": "mqtt in",
+        "z": "cac3faf3.806b8",
+        "name": "Solar Power Feed (MQTT)",
+        "topic": "emoncms/solar_total",
+        "qos": "2",
+        "broker": "f93aac1c.e9aae8",
+        "x": 135.25,
+        "y": 485.25000762939,
+        "wires": [
+            [
+                "80ad7a3.0044c08"
+            ]
+        ]
+    },
+    {
+        "id": "80ad7a3.0044c08",
+        "type": "range",
+        "z": "cac3faf3.806b8",
+        "minin": "0",
+        "maxin": "8000",
+        "minout": "0",
+        "maxout": "64",
+        "action": "scale",
+        "round": true,
+        "name": "",
+        "x": 391,
+        "y": 485,
+        "wires": [
+            [
+                "d52290ef.7ed688"
+            ]
+        ]
+    },
+    {
+        "id": "d52290ef.7ed688",
+        "type": "rbe",
+        "z": "cac3faf3.806b8",
+        "name": "",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "x": 570.5,
+        "y": 486,
+        "wires": [
+            [
+                "4f4ba601.f0bac8"
+            ]
+        ]
+    },
+    {
+        "id": "9efbcde8.ec38c",
+        "type": "mqtt out",
+        "z": "cac3faf3.806b8",
+        "name": "pixel MQTT",
+        "topic": "emonpixel",
+        "qos": "",
+        "retain": "",
+        "broker": "f93aac1c.e9aae8",
+        "x": 1309.75,
+        "y": 533.75,
+        "wires": []
+    },
+    {
+        "id": "4f4ba601.f0bac8",
+        "type": "emonpixel-clockwise",
+        "z": "cac3faf3.806b8",
+        "name": "White Dial",
+        "red": "40",
+        "green": "160",
+        "blue": "130",
+        "x": 767.25001525879,
+        "y": 481.00000762939,
+        "wires": [
+            [
+                "9efbcde8.ec38c",
+                "7aa7746a.23f3c4"
+            ]
+        ]
+    },
+    {
+        "id": "b9e6249f.7da15",
+        "type": "emonpixel-background",
+        "z": "cac3faf3.806b8",
+        "name": "",
+        "x": 1229,
+        "y": 666.75,
+        "wires": [
+            [
+                "9efbcde8.ec38c",
+                "235e5e0f.4e0f6a"
+            ]
+        ]
+    },
+    {
+        "id": "69a45a21.457624",
+        "type": "rbe",
+        "z": "cac3faf3.806b8",
+        "name": "Block unless value change",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "x": 689.5,
+        "y": 631,
+        "wires": [
+            [
+                "9d6fa53b.9ae8a"
+            ]
+        ]
+    },
+    {
+        "id": "1f08147d.3122c4",
+        "type": "mqtt in",
+        "z": "cac3faf3.806b8",
+        "name": "Import / Export Feed (MQTT)",
+        "topic": "emoncms/total_power",
+        "qos": "2",
+        "broker": "f93aac1c.e9aae8",
+        "x": 131.50000762939,
+        "y": 621.25000953674,
+        "wires": [
+            [
+                "7f17a3d3.376584",
+                "e3fce0fe.126e5"
+            ]
+        ]
+    },
+    {
+        "id": "e30ea0dd.e30e88",
+        "type": "rbe",
+        "z": "cac3faf3.806b8",
+        "name": "Block unless value change",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "x": 675,
+        "y": 744,
+        "wires": [
+            [
+                "bd468b9c.00a348"
+            ]
+        ]
+    },
+    {
+        "id": "7f17a3d3.376584",
+        "type": "switch",
+        "z": "cac3faf3.806b8",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "t": "gte",
+                "v": "0",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 258.25,
+        "y": 684,
+        "wires": [
+            [
+                "47b0850e.aa965c"
+            ],
+            [
+                "30cb16f6.d402ca"
+            ]
+        ]
+    },
+    {
+        "id": "30cb16f6.d402ca",
+        "type": "range",
+        "z": "cac3faf3.806b8",
+        "minin": "0",
+        "maxin": "8000",
+        "minout": "0",
+        "maxout": "255",
+        "action": "scale",
+        "round": true,
+        "name": "Import (positive)",
+        "x": 422.5,
+        "y": 744,
+        "wires": [
+            [
+                "e30ea0dd.e30e88"
+            ]
+        ]
+    },
+    {
+        "id": "47b0850e.aa965c",
+        "type": "range",
+        "z": "cac3faf3.806b8",
+        "minin": "-1",
+        "maxin": "-4000",
+        "minout": "0",
+        "maxout": "255",
+        "action": "scale",
+        "round": true,
+        "name": "export Range (negative)",
+        "x": 438.5,
+        "y": 635,
+        "wires": [
+            [
+                "69a45a21.457624"
+            ]
+        ]
+    },
+    {
+        "id": "9d6fa53b.9ae8a",
+        "type": "function",
+        "z": "cac3faf3.806b8",
+        "name": "Green Background RGB CSV",
+        "func": "var newMesg = { payload: \"0,\" + msg.payload + \",0\"}\nreturn newMesg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 959.25,
+        "y": 630.5,
+        "wires": [
+            [
+                "b9e6249f.7da15"
+            ]
+        ]
+    },
+    {
+        "id": "bd468b9c.00a348",
+        "type": "function",
+        "z": "cac3faf3.806b8",
+        "name": "Red Background RBG CSV",
+        "func": "var newMesg = { payload:  msg.payload + \",0,0\"}\nreturn newMesg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 950.75,
+        "y": 743.75,
+        "wires": [
+            [
+                "b9e6249f.7da15"
+            ]
+        ]
+    },
+    {
+        "id": "7f676fc1.845c68",
+        "type": "inject",
+        "z": "cac3faf3.806b8",
+        "name": "",
+        "topic": "",
+        "payload": "1,2,3",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 172.5,
+        "y": 103,
+        "wires": [
+            [
+                "ffd899d.77388e8"
+            ]
+        ]
+    },
+    {
+        "id": "f35ad4e0.2293c",
+        "type": "inject",
+        "z": "cac3faf3.806b8",
+        "name": "",
+        "topic": "",
+        "payload": "15",
+        "payloadType": "num",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 172.5,
+        "y": 179,
+        "wires": [
+            [
+                "dbff2260.f99c9",
+                "3df9f203.274f2e"
+            ]
+        ]
+    },
+    {
+        "id": "d48f5ebe.e807a",
+        "type": "inject",
+        "z": "cac3faf3.806b8",
+        "name": "",
+        "topic": "",
+        "payload": "10,11,12,15",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 190,
+        "y": 260,
+        "wires": [
+            [
+                "dbff2260.f99c9",
+                "3df9f203.274f2e"
+            ]
+        ]
+    },
+    {
+        "id": "ffd899d.77388e8",
+        "type": "emonpixel-background",
+        "z": "cac3faf3.806b8",
+        "name": "",
+        "x": 445.5,
+        "y": 112,
+        "wires": [
+            [
+                "b49c626b.874d38",
+                "9efbcde8.ec38c"
+            ]
+        ]
+    },
+    {
+        "id": "dbff2260.f99c9",
+        "type": "emonpixel-clockwise",
+        "z": "cac3faf3.806b8",
+        "name": "",
+        "red": "255",
+        "green": "0",
+        "blue": "0",
+        "x": 440.5,
+        "y": 182,
+        "wires": [
+            [
+                "b49c626b.874d38",
+                "9efbcde8.ec38c"
+            ]
+        ]
+    },
+    {
+        "id": "3df9f203.274f2e",
+        "type": "emonpixel-anticlockwise",
+        "z": "cac3faf3.806b8",
+        "name": "",
+        "red": "0",
+        "green": "255",
+        "blue": "0",
+        "x": 458.5,
+        "y": 259,
+        "wires": [
+            [
+                "b49c626b.874d38",
+                "9efbcde8.ec38c"
+            ]
+        ]
+    },
+    {
+        "id": "b49c626b.874d38",
+        "type": "debug",
+        "z": "cac3faf3.806b8",
+        "name": "",
+        "active": true,
+        "console": "true",
+        "complete": "payload",
+        "x": 719.5,
+        "y": 192,
+        "wires": []
+    },
+    {
+        "id": "7aa7746a.23f3c4",
+        "type": "debug",
+        "z": "cac3faf3.806b8",
+        "name": "debug solar ",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 930,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "235e5e0f.4e0f6a",
+        "type": "debug",
+        "z": "cac3faf3.806b8",
+        "name": "debug emonpixel bck",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 1469.2499847412,
+        "y": 664.24999046326,
+        "wires": []
+    },
+    {
+        "id": "e3fce0fe.126e5",
+        "type": "debug",
+        "z": "cac3faf3.806b8",
+        "name": "debug import/export",
+        "active": false,
+        "console": "false",
+        "complete": "payload",
+        "x": 435.75,
+        "y": 562.5,
+        "wires": []
+    },
+    {
+        "id": "a82804e6.3391e8",
+        "type": "comment",
+        "z": "cac3faf3.806b8",
+        "name": "Test buttons",
+        "info": "press one of this buttons to check if the emonpixel receives the MQTT message",
+        "x": 180,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "4df2a118.b2e188",
+        "type": "comment",
+        "z": "cac3faf3.806b8",
+        "name": "Input flow",
+        "info": "Connect your (local) emoncms with MQTT.\n1) Actual Solar power feed in watts \n2) Import/Export feed. Actual total USE of your building in watts\n",
+        "x": 110,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "f93aac1c.e9aae8",
+        "type": "mqtt-broker",
+        "z": "",
+        "broker": "192.168.1.110",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "verifyservercert": true,
+        "compatmode": true,
+        "keepalive": "15",
+        "cleansession": true,
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": null,
+        "willPayload": "",
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": null,
+        "birthPayload": ""
+    }
 ]
