@@ -1,5 +1,5 @@
 
-# EmonESP
+# emonPixel
 
 [![Build Status](https://travis-ci.org/openenergymonitor/emonPixel.svg?branch=master)](https://travis-ci.org/openenergymonitor/emonPixel)
 
@@ -7,10 +7,6 @@ ESP8266 WIFI Pixel display
 
 ![EmonPixel](images/pixel-wall-small.jpg)
 
-## Requirements
-
-- ESP-12E module with 4M Flash
-- EmonPixel
 
 ***
 

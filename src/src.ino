@@ -44,9 +44,9 @@ void setup() {
         pixel_begin();
         pixel_rgb_demo();
 
-        Serial.begin(9600);
+        Serial.begin(115200);
 #ifdef DEBUG_SERIAL1
-        Serial1.begin(9600);
+        Serial1.begin(115200);
 #endif
 
         DEBUG.println();
