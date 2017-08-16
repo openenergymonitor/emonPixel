@@ -50,7 +50,7 @@ void setup() {
 #endif
 
         DEBUG.println();
-        DEBUG.print("EmonESP ");
+        DEBUG.print("EmonPixel ");
         DEBUG.println(ESP.getChipId());
         DEBUG.println("Firmware: "+ currentfirmware);
         delay(1000);
