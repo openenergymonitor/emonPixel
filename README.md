@@ -14,7 +14,7 @@ ESP8266 WIFI Pixel display
 
 ## First Setup
 
-On first boot, ESP should broadcast a WiFI AP `emonPixel_XXX`. Connect to this AP and the [captive portal](https://en.wikipedia.org/wiki/Captive_portal) should forward you to the log-in page. If this does not happen navigate to `http://192.168.4.1`
+On first boot, ESP should broadcast a WiFI AP `emonPixel_XXX`. Connect to this AP and the [captive portal](https://en.wikipedia.org/wiki/Captive_portal) should forward you to the log-in page. If this does not happen navigate to http://192.168.4.1
 
 *Note: You may need to disable mobile data if connecting via a Android 6 device*
 
@@ -32,7 +32,7 @@ The Pixel should illuminate all LED's in a colour pattern to indicate a normal b
 
 A fresh (blank) emonPixel will starup in WiFi access point (AP), 3 white LED's and 6 blue indicate WiFi AP mode.
 
-You should now be able to connect to the emonPixel's AP using a laptop or mobile. The network name will be emonPixel_xxxx where xxx is a number printed on the rear of the unit. When connected the phone or laptop should get automatically forward to the login portal via captive portal. If this does not happen browser to http://192.186.4.1. Once connected to the login portal (it may take a few moments to load) you should see the WiFi Pixels config page:
+You should now be able to connect to the emonPixel's AP using a laptop or mobile. The network name will be emonPixel_xxxx where xxx is a number printed on the rear of the unit. When connected the phone or laptop should get automatically forward to the login portal via captive portal. If this does not happen browser to http://192.168.4.1. Once connected to the login portal (it may take a few moments to load) you should see the WiFi Pixels config page:
 
 ![](images/wifi-ap.png)
 
